@@ -1,8 +1,13 @@
 package com.example.digitalstethoscope;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 import org.jtransforms.fft.DoubleFFT_1D;
+
+import wav.WavFile.WavFile;
+import wav.WavFile.WavFileException;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -10,6 +15,7 @@ import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -21,6 +27,26 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class TestCanvasActivity extends Activity implements OnClickListener{
+	private WavFile wav;
+	
+	/* Checks if external storage is available for read and write */
+	public boolean isExternalStorageWritable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state)) {
+	        return true;
+	    }
+	    return false;
+	}
+
+	/* Checks if external storage is available to at least read */
+	public boolean isExternalStorageReadable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state) ||
+	        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+	        return true;
+	    }
+	    return false;
+	}
 	
 	//private TestCanvasView testCanvasView;
 	private TextView testCanvasView;
@@ -41,16 +67,56 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 	
 	public void onClick(View view) {
 		switch(view.getId()) {
-		case R.id.TestAsyncButton:
-			testCanvasView.setText("After button click");
-			Log.d("debugthisshit", "After button click");
-			//new PrepareViewTask().execute();
-			double[] testinput = new double[CalcFFTTask.FFT_SIZE];
-			
-			for (int i= 0; i < CalcFFTTask.FFT_SIZE; i++) {
-				testinput[i] = Math.random();
+		case R.id.TestAsyncButton:			
+			if (this.wav != null) {
+				testCanvasView.setText("After button click wav open");
+				Log.d("debugthisshit", "After button click wav open");
+				int framesRead = 0;
+				double[] buffer = new double[CalcFFTTask.FFT_SIZE * this.wav.getNumChannels()];
+				try {
+	                framesRead = this.wav.readFrames(buffer, CalcFFTTask.FFT_SIZE);
+	            } catch (IOException e) {
+	            } catch (WavFileException wfe) {
+	            }
+				new CalcFFTTask().execute(buffer);
+			} else {
+				testCanvasView.setText("After button click random");
+				Log.d("debugthisshit", "After button click random");
+				//new PrepareViewTask().execute();
+				double[] testinput = new double[CalcFFTTask.FFT_SIZE];
+				
+				for (int i= 0; i < CalcFFTTask.FFT_SIZE; i++) {
+					testinput[i] = Math.random();
+				}
+				new CalcFFTTask().execute(testinput);
 			}
-			new CalcFFTTask().execute(testinput);
+			
+		}
+	}
+	
+	public void onClickOpenWav(View view) {
+		switch(view.getId()) {
+			case R.id.OpenWavButton:
+				testCanvasView.setText("After button openWav click");
+				Log.d("debugthisshit", "After button openWav click");
+				File file = Environment.getExternalStorageDirectory();
+				this.wav = new WavFile();
+				int numChannels = 0;
+		        double[] buffer = new double[1];
+				testCanvasView.setText("Extern stor dir: " + file);
+				
+				try {
+		            this.wav = WavFile.openWavFile(new File(file + "/wav/seashell.wav"));
+		            //seashell.display();
+		            // Get the number of audio channels in the wav file
+		            numChannels = this.wav.getNumChannels();
+		            // Create a buffer of 512 frames
+		            buffer = new double[CalcFFTTask.FFT_SIZE * numChannels];
+		        } catch (Exception e) {
+		            System.out.println("Error" + e);
+		        }
+				testCanvasView.setText("Succes opening wav file.");
+				Log.d("debugthisshit", "Succes opening wav file.");				
 		}
 	}
 	

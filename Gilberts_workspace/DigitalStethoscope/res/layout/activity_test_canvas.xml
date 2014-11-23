@@ -19,5 +19,12 @@
         android:text="@string/Start"
         />
 	
+	<Button
+        android:id="@+id/OpenWavButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickOpenWav"
+        android:text="@string/OpenWavFile"
+        />
 	
 </LinearLayout>
