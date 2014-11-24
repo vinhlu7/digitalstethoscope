@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.digitalstethoscope.LandingActivity" >
+
+    <Button
+        android:id="@+id/ConnectBluetoothButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickConnectBluetooth"
+        android:text="@string/ConnectBluetooth"
+        />
+    
+    <Button
+        android:id="@+id/OpenWaveFileButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickOpenWaveFile"
+        android:text="@string/OpenWaveFile"
+        />
+    
+    <Button
+        android:id="@+id/RealtimeStreamingButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickRealtimeStreaming"
+        android:text="@string/RealtimeStreaming"
+        />
+    
+    <Button
+        android:id="@+id/TestPlottingButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickTestPlotting"
+        android:text="@string/TestPlotting"
+        />
+    
+    <Button
+        android:id="@+id/TestCanvasButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickTestCanvas"
+        android:text="@string/TestCanvas"
+        />
+
+</LinearLayout>
