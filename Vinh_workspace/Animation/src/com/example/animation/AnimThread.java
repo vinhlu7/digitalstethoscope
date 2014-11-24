@@ -1,5 +1,8 @@
 package com.example.animation;
 
+import android.graphics.Bitmap;
+
+import java.util.Random;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,13 +11,17 @@ import android.view.SurfaceHolder;
 public class AnimThread extends Thread {
 
     private SurfaceHolder holder;
+    Random random;
     private boolean running = true;
-    int i,j= 0;
-    int next_column = 150;
-    int screen_width = 800;
-    int screen_height = 900;
-    float[][] stft_array = new float[800][900];
+	int x_position =0;
     Canvas canvas = null;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 900;
+    private ColorArray colorArray = new ColorArray(WIDTH,HEIGHT);
+    
+
+    Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT,Bitmap.Config.RGB_565);
+    //int[]pixels = new int[bitmap.getHeight()*bitmap.getWidth()];
     
     public AnimThread(SurfaceHolder holder) {
         this.holder = holder;
@@ -22,13 +29,11 @@ public class AnimThread extends Thread {
 
     @Override
     public void run() {
+    	random = new Random();
+      //  for (int i=0; i<bitmap.getWidth()*bitmap.getHeight(); i++)
+        //    pixels[i] = Color.BLUE;
+        //bitmap.setPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
         
-    	System.out.println("assigned");
-        for(int i=0;i<800;i++){
-        	for(int j=0;j<900;j++){
-        		stft_array[i][j] = -100 + (int)(Math.random()*(121));
-        	}
-        }
         while(running ) {
            // Canvas canvas = null;
 
@@ -74,13 +79,34 @@ public class AnimThread extends Thread {
     }
 
     private void postInvalidate() {
+    	int[] columnArray = new int[HEIGHT];
+    	int color = Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+    	for(int i=0;i<HEIGHT;i++){
+    		columnArray[i] = color;
+    	}
+    	colorArray.insert(columnArray);
+    	//for(int i=0;i<HEIGHT*10;i++){
+    	//	pixels[i] = Color.RED;
+    	//}
+    	bitmap = Bitmap.createBitmap(colorArray.castInt(),WIDTH,HEIGHT,Bitmap.Config.RGB_565);
+
+        canvas.drawBitmap(bitmap, x_position,0, null); 
+        
+        
+
+         
+    	
+    	
     	//Canvas canvas = null;
     	//canvas.drawColor(Color.BLACK);
-        Paint paint = new Paint();
+        //canvas.drawBitmap(dot,150,150,null);
+        /*
         for(int column = next_column; column<screen_width;){
         	 for(int row=0; row<screen_height; row++){ //max height is around 900
-        	 	 //paint.setColor(Color.RED);
+        	 	 paint.setColor(Color.RED);
+        	 	canvas.drawPoint(column, row, paint);
         	 	//stft_array[column][row] = -100 + (int)(Math.random()*(121));
+        		 
         	 	if(stft_array[column][row] == 20) {
         	 		paint.setColor(Color.rgb(162,1,1));
         	 	} else if (stft_array[column][row] == 0) {
@@ -103,15 +129,17 @@ public class AnimThread extends Thread {
          	 	}
         	 	  else
         	 		paint.setColor(Color.WHITE);
-        	 	 for(int x = 150; x<=column;x++){
-        	 		 canvas.drawPoint(x, row, paint);
-        	 	 }
+        	 		
+        	 	// for(int x = 150; x<=column;x++){
+        	 	//	 canvas.drawPoint(x, row, paint);
+        	 	// }
         	 }
         	 //if(column >= 1){
-        		 next_column = column+1;
-    			 return;
+        		next_column = column+1;
+    			return;
     		 //}
          }
+        */
 	}
 
 	public void setRunning(boolean b) {
