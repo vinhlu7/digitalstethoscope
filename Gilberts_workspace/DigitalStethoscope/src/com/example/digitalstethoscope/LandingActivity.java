@@ -50,7 +50,8 @@ public class LandingActivity extends Activity {
     }
     
     public void onClickOpenWaveFile(View v) {
-    	
+    	Intent i = new Intent(this, FileChooser.class);
+    	startActivity(i);
     }
     
     public void onClickRealtimeStreaming(View v) {
