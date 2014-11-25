@@ -1,9 +1,11 @@
-package com.example.digitalstethoscope;
+package com.example.digitalstethoscope.util.fileexplorer;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.example.digitalstethoscope.R;
 
 import android.app.ListActivity;
 import android.os.Bundle;

@@ -1,10 +1,5 @@
 # cache for current jar dependency. DO NOT EDIT.
 # format is <lastModified> <length> <SHA-1> <path>
 # Encoding is UTF-8
-<<<<<<< HEAD
-1403569040000 758727 efec67655f6db90757faa37201efcee2a9ec3507 C:\Users\Administrator\workspaceJuno\appcompat_v7\libs\android-support-v4.jar
-1416547307432 758727 efec67655f6db90757faa37201efcee2a9ec3507 C:\Users\Administrator\workspaceJuno\Animation\libs\android-support-v4.jar
-=======
 1416713582570 758727 efec67655f6db90757faa37201efcee2a9ec3507 C:\digitalstethoscope\Vinh_workspace\Animation\libs\android-support-v4.jar
 1416622561283 758727 efec67655f6db90757faa37201efcee2a9ec3507 C:\digitalstethoscope\Vinh_workspace\appcompat_v7\libs\android-support-v4.jar
->>>>>>> 7a143f5147d1252395742ca30f08c1a3ce70e84e

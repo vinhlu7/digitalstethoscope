@@ -1,4 +1,4 @@
-package com.example.digitalstethoscope;
+package com.example.digitalstethoscope.util.fileexplorer;
 
 public class Option implements Comparable<Option>{
     private String name;

@@ -1,4 +1,4 @@
-package com.example.digitalstethoscope;
+package com.example.digitalstethoscope.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;

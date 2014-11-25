@@ -1,10 +1,13 @@
-package com.example.digitalstethoscope;
+package com.example.digitalstethoscope.activities;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
 import org.jtransforms.fft.DoubleFFT_1D;
+
+import com.example.digitalstethoscope.util.fileexplorer.FileChooser;
+import com.example.digitalstethoscope.R;
 
 import wav.WavFile.WavFile;
 import wav.WavFile.WavFileException;

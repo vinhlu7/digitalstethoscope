@@ -1,6 +1,8 @@
-package com.example.digitalstethoscope;
+package com.example.digitalstethoscope.util.fileexplorer;
 
 import java.util.List;
+
+import com.example.digitalstethoscope.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;

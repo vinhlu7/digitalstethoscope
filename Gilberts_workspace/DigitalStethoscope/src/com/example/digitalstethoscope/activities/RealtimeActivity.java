@@ -1,4 +1,6 @@
-package com.example.digitalstethoscope;
+package com.example.digitalstethoscope.activities;
+
+import com.example.digitalstethoscope.R;
 
 import android.app.Activity;
 import android.os.Bundle;

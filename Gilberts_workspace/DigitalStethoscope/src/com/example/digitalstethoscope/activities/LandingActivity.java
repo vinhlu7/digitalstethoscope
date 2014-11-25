@@ -1,6 +1,9 @@
-package com.example.digitalstethoscope;
+package com.example.digitalstethoscope.activities;
 
 import java.util.Random;
+
+import com.example.digitalstethoscope.util.fileexplorer.FileChooser;
+import com.example.digitalstethoscope.R;
 
 import android.app.Activity;
 import android.content.Intent;
