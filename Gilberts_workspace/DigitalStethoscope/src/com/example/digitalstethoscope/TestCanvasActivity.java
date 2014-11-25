@@ -10,6 +10,7 @@ import wav.WavFile.WavFile;
 import wav.WavFile.WavFileException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
@@ -95,6 +96,9 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 	}
 	
 	public void onClickOpenWav(View view) {
+		Intent i = new Intent(this, FileChooser.class);
+    	startActivity(i);
+		/*
 		switch(view.getId()) {
 			case R.id.OpenWavButton:
 				testCanvasView.setText("After button openWav click");
@@ -118,6 +122,8 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 				testCanvasView.setText("Succes opening wav file.");
 				Log.d("debugthisshit", "Succes opening wav file.");				
 		}
+		*/
+		
 	}
 	
 	@Override
