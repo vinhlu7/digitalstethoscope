@@ -7,8 +7,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import com.example.digitalstethoscope.animation.Animation;
 import com.example.digitalstethoscope.util.fileexplorer.FileChooser;
-import com.example.digitalstethoscope.util.fileexplorer.Option;
 import com.example.digitalstethoscope.R;
 
 import android.app.Activity;
@@ -133,6 +133,8 @@ public class LandingActivity extends Activity {
     
     public void onClickTestPlotting(View v) {
     	new DelayTask().execute(5);
+    	Intent intent = new Intent(this, Animation.class);
+    	startActivity(intent);
     }
     
     public void onClickTestCanvas(View v) {
