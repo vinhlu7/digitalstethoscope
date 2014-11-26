@@ -15,5 +15,8 @@
     <string name="title_activity_realtime">RealtimeActivity</string>
     <string name="title_activity_test_canvas">TestCanvasActivity</string>
     <string name="title_activity_test_plotting">TestPlottingActivity</string>
+    
+    <string name="TextView01"></string>
+    <string name="TextView02"></string>
 
 </resources>
