@@ -12,13 +12,7 @@
     <string name="RealtimeStreaming">Realtime Streaming</string>
     <string name="TestPlotting">Test Plotting</string>
     <string name="TestCanvas">Test Canvas</string>
-<<<<<<< HEAD
     <string name="Start">Start FFT</string>
-=======
-    
-    
-    <string name="Start">Start</string>
->>>>>>> afd489893748e0a438de48909a5bc0c05b296fe7
     <string name="OpenWavFile">Open Wav File</string>
     <string name="title_activity_realtime">RealtimeActivity</string>
     <string name="title_activity_test_canvas">TestCanvasActivity</string>

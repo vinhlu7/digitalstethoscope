@@ -17,13 +17,21 @@ import android.widget.Toast;
 
 public class FileChooser extends ListActivity{
 
-	private File currentDir;
-	private FileArrayAdapter adapter; 	
+	private File rootStorageDir = new File(Environment.getExternalStorageDirectory().getPath());
+	private File currentDir = null;
+	private FileArrayAdapter adapter = null; 	
 	
 	public void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
-		currentDir = new File(Environment.getExternalStorageDirectory().getPath());
-		fill(currentDir);
+		if (currentDir == null) {
+			fill(rootStorageDir);
+		} else {
+			fill(currentDir);
+		}
+	}
+	
+	public void setCurrentDir(String current) {
+		this.currentDir = new File(current);
 	}
 
 	private void fill(File f)

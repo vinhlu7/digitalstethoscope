@@ -2,10 +2,11 @@ package com.example.digitalstethoscope.activities;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-import org.jtransforms.fft.DoubleFFT_1D;
-
+import com.example.digitalstethoscope.util.calculating.CalcFFTTask;
 import com.example.digitalstethoscope.util.fileexplorer.FileChooser;
 import com.example.digitalstethoscope.R;
 
@@ -33,27 +34,8 @@ import android.widget.Toast;
 
 public class TestCanvasActivity extends Activity implements OnClickListener{
 	private WavFile wav;
-	private String fullPath;
-	
-	/* Checks if external storage is available for read and write */
-	public boolean isExternalStorageWritable() {
-	    String state = Environment.getExternalStorageState();
-	    if (Environment.MEDIA_MOUNTED.equals(state)) {
-	        return true;
-	    }
-	    return false;
-	}
-
-	/* Checks if external storage is available to at least read */
-	public boolean isExternalStorageReadable() {
-	    String state = Environment.getExternalStorageState();
-	    if (Environment.MEDIA_MOUNTED.equals(state) ||
-	        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-	        return true;
-	    }
-	    return false;
-	}
-	
+	private String fullPath = null;
+		
 	//private TestCanvasView testCanvasView;
 	private TextView testCanvasView;
 	Button start;
@@ -63,44 +45,61 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test_canvas);
 		start = (Button) findViewById(R.id.TestAsyncButton);
-		testCanvasView = (TextView) findViewById(R.id.TestCanvasView);
-		
+		testCanvasView = (TextView) findViewById(R.id.TestCanvasView);		
 		testCanvasView.setText("Start");
 		//testCanvasView = (TestCanvasView) findViewById(R.id.TestCanvasViewClass);
 		start.setOnClickListener(this);
 		//new PrepareViewTask().execute();
+		
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (requestCode == 1) {
 	        if(resultCode == RESULT_OK){
-	            fullPath=data.getStringExtra("fullpath");
+	            this.fullPath = data.getStringExtra("fullpath");
+	            try{
+					this.wav = WavFile.openWavFile(new File(this.fullPath));
+				}catch (Exception e) {
+		            System.out.println("Error" + e);
+		        }
 	        }
 	    }
 	}//onActivityResult
 	
 	public void onClick(View view) {
 		switch(view.getId()) {
-		case R.id.TestAsyncButton:	
-			try{
-				this.wav = WavFile.openWavFile(new File(fullPath));
-
-			}catch (Exception e) {
-	            System.out.println("Error" + e);
-	        }
-			
+		case R.id.TestAsyncButton:			
 			if (this.wav != null) {
 				testCanvasView.setText("After button click wav open");
 				Log.d("debugthisshit", "After button click wav open");
 				int framesRead = 0;
 				double[] buffer = new double[CalcFFTTask.FFT_SIZE * this.wav.getNumChannels()];
 				try {
-					this.wav = WavFile.openWavFile(new File(fullPath));
 	                framesRead = this.wav.readFrames(buffer, CalcFFTTask.FFT_SIZE);
 	            } catch (IOException e) {
 	            } catch (WavFileException wfe) {
 	            }
-				new CalcFFTTask().execute(buffer);
+				CalcFFTTask calcffttask = new CalcFFTTask(this);
+				calcffttask.execute(buffer);
+				
+				try {
+					int lines = 20;
+					double[] results = calcffttask.get(5, TimeUnit.SECONDS);
+					testCanvasView.setText("First " + lines + " FFT calculations.\n" + formatDouble(lines, results));
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					Toast.makeText(this, "Interrupted Exception", Toast.LENGTH_SHORT).show();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					Toast.makeText(this, "Execution Exception", Toast.LENGTH_SHORT).show();
+				} catch (TimeoutException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					Toast.makeText(this, "Timeout Exception", Toast.LENGTH_SHORT).show();
+				}
+				
 			} else {
 				Toast.makeText(this, "Please select a .WAV file first.", Toast.LENGTH_SHORT).show();
 				/*
@@ -122,9 +121,9 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 	public void onClickOpenWav(View view) {
 		
 		switch(view.getId()) {
-			case R.id.OpenWavButton:
-				Intent i = new Intent(this, FileChooser.class);
-				startActivityForResult(i,1);
+			case R.id.OpenWavButton:	
+				Intent fileChooserIntent = new Intent(this, FileChooser.class);
+				startActivityForResult(fileChooserIntent,1);
 				/*
 				System.out.println("end of open wav");
 				try{
@@ -211,161 +210,20 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 		Log.d("debugthisshit", "dim[1] = " + dim[1]);
 		
 		return dim;
-	}
+	}	
 	
-	public class PrepareViewTask extends AsyncTask<Void, Void, Void> {
-    	
-    	//private int[] rectCoordTemp;
-    	
-    	//private int[] colorsTemp;
-    	
-		@Override
-		protected Void doInBackground(Void ...args)
-		{			
-			Log.d("debugthisshit", "Inside doInBackgroung. Doing work.");
-			for(int i=0;i<2;i++) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-            //TextView txt = (TextView) findViewById(R.id.TestCanvasView);
-			//testCanvasView.setText("Executed");
-			
-			/*
-			Integer[] screenSize = getScreenSize();
-			
-			rectCoordTemp = new int[4 * (screenSize[0] / 2) * (screenSize[1] / 2)];
-			
-			colorsTemp = new int[rectCoordTemp.length / 4];
-			
-			Random rand = new Random();
-			
-			for(int i = 0; i < colorsTemp.length; i++) {
-				colorsTemp[i] = Color.rgb(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
-			}
-			
-			rectCoordTemp[0] = 0;
-			rectCoordTemp[1] = 0;
-			rectCoordTemp[2] = 2;
-			rectCoordTemp[3] = 2;
-			
-			for(int i = 4; i + 3 < rectCoordTemp.length; i = i + 4) {
-				if(i % ((screenSize[0] / 2) * 4) != 0) {
-					rectCoordTemp[i] = rectCoordTemp[i - 4] + 2;
-					rectCoordTemp[i + 1] = rectCoordTemp[i + 1 - 4];
-					rectCoordTemp[i + 2] = rectCoordTemp[i + 2 - 4] + 2;
-					rectCoordTemp[i + 3] = rectCoordTemp[i + 3 - 4] + 2;
-				}
-				else {
-					rectCoordTemp[i] = rectCoordTemp[i - ((screenSize[0] / 2) * 4)];
-					rectCoordTemp[i + 1] = rectCoordTemp[i + 1 - ((screenSize[0] / 2) * 4)] + 2;
-					rectCoordTemp[i + 2] = rectCoordTemp[i + 2 - ((screenSize[0] / 2) * 4)];
-					rectCoordTemp[i + 3] = rectCoordTemp[i + 3 - ((screenSize[0] / 2) * 4)] + 2;
-				}
-			}
-			
-			Log.d("debugthisshit", "I got here2");
-			
-			testCanvasView.setPictureData(screenSize[0], screenSize[1], rectCoordTemp, colorsTemp);
-			testCanvasView.forceDraw();
-			*/
-			//testCanvasView.setText("Finished with work. Returning.");
-			Log.d("debugthisshit", "Finished with work. Returning.");
-			return null;
-			
-		}
+	public static String formatDouble(int lines, double[] fftresults) {
+		StringBuilder str = new StringBuilder();
+		String pre = "";
+		String mid = "";
+		lines *=2;
 		
-		protected void onPreExecute() {
-			testCanvasView.setText("Doing work.");
-			Log.d("debugthisshit", "Before doInBackgroung. About to do work.");
-		}
-		
-		protected void onPostExecute(Void unused) {
-			testCanvasView.setText("Finished async work. View should be updated.");
-			Log.d("debugthisshit", "Finished async work. View should be updated.");
-			//testCanvasView.setText("Executed");
-		}
+		for (int i = 0; i < lines; i += 2) {
+            pre = (fftresults[i] >= 0.0) ? " " : "";
+            mid = (fftresults[i + 1] >= 0.0) ? "+" : "";
+            str.append(String.format("%s%.4f %s %.4fi \n", pre, fftresults[i], mid, fftresults[i + 1]));
+        }
+		return str.toString();
+		//return "stuff";
 	}
-	
-	public class CalcFFTTask extends AsyncTask<double[], Void, double[]> {
-		public final static int FFT_SIZE = 512;
-		
-		//private double[] frame;
-
-	    //private double[] result;
-	    
-	    protected void onPreExecute() {
-	    	testCanvasView.setText("Performing FFT. Simulated slowdown.");
-	    	new DelayTask().execute(2);
-			Log.d("debugthisshit", "Before doInBackgroung. About to do work.");
-	    }    
-	    
-		@Override
-		protected double[] doInBackground(double[]... params) {
-			
-			DoubleFFT_1D fft = new DoubleFFT_1D(FFT_SIZE);
-			// x is twice the size because theres real components and complex
-			// even parts of the x array are the real components
-			// odd parts of the x array are the complex components
-			double[] x = java.util.Arrays.copyOf(params[0], FFT_SIZE * 2);
-
-	        fft.realForwardFull(x);
-	        //this.result = x;
-			// TODO Auto-generated method stub
-			return x;
-		}
-		
-		protected void onPostExecute(double[] result) {
-			StringBuilder str = new StringBuilder();
-			int printlength = 40;
-			String pre = "";
-	        String mid = ""; 
-	        
-			str.append("Finished calculating FFT. First " + printlength/2 + " FFT calcs:\n");
-	        for (int i = 0; i < printlength; i += 2) {
-	            pre = (result[i] >= 0.0) ? " " : "";
-	            mid = (result[i + 1] >= 0.0) ? "+" : "";
-	            str.append(String.format("%s%.4f %s %.4fi \n", pre, result[i], mid, result[i + 1]));
-	        }			
-			testCanvasView.setText(str.toString());
-			Log.d("debugthisshit", "Finished async work. View should be updated.");
-	    }		
-		
-	}
-	
-	// Responsive delay to UI thread
-	// How to use:
-	// int seconds = 3;
-	// new DelayTask().execute(seconds)
-	public class DelayTask extends AsyncTask<Integer, Void, Void> {
-		
-		protected void onPreExecute() {
-			testCanvasView.setText("Delay.");
-			Log.d("debugthisshit", "DelayTask preExecute");
-		}
-		
-		@Override
-		protected Void doInBackground(Integer... params) {
-			int delaymilliseconds = params[0]*1000;
-			try {
-				Thread.sleep(delaymilliseconds);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-		protected void onPostExecute(Void unused) {
-			testCanvasView.setText("Exit Delay.");
-			Log.d("debugthisshit", "DelayTask postExecute");
-		}
-				
-	}
-
-	
 }
