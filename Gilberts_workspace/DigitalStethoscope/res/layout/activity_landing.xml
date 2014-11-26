@@ -6,11 +6,19 @@
     tools:context="com.example.digitalstethoscope.activities.LandingActivity" >
 
     <Button
-        android:id="@+id/ConnectBluetoothButton"
+        android:id="@+id/EnableBluetoothButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickConnectBluetooth"
-        android:text="@string/ConnectBluetooth"
+        android:onClick="onClickEnableBluetooth"
+        android:text="@string/EnableBluetooth"
+        />
+    
+    <Button
+        android:id="@+id/ConnectDeviceButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickConnectDevice"
+        android:text="@string/ConnectDevice"
         />
     
     <Button
