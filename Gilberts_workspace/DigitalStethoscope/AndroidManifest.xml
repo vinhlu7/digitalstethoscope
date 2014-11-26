@@ -33,9 +33,20 @@
             android:name=".activities.TestCanvasActivity"
             android:label="@string/title_activity_test_canvas" >
         </activity>
+        
+        <activity
+            android:name=".activities.TestPlottingActivity"
+            android:label="@string/title_activity_test_plotting" >
+        </activity>
 		
         <activity
             android:name=".util.fileexplorer.FileChooser">
+        </activity>
+        
+        <activity
+            android:name=".animation.Animation"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation">
         </activity>
         
     </application>

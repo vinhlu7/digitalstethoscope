@@ -4,8 +4,6 @@
     <string name="app_name">DigitalStethoscope</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    
-    
     <string name="EnableBluetooth">Enable Bluetooth</string>
     <string name="ConnectDevice">Connect Device</string>
     <string name="OpenWaveFile">Open Wave File</string>
@@ -16,5 +14,6 @@
     <string name="OpenWavFile">Open Wav File</string>
     <string name="title_activity_realtime">RealtimeActivity</string>
     <string name="title_activity_test_canvas">TestCanvasActivity</string>
+    <string name="title_activity_test_plotting">TestPlottingActivity</string>
 
 </resources>
