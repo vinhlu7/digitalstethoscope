@@ -9,16 +9,16 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class RealtimeActivity extends Activity {
-	
+
 	private TextView testTextView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_realtime);
-		
+
 		testTextView = (TextView) findViewById(R.id.TestTextView);
-		
+
 		testTextView.setText("abcd");
 	}
 
