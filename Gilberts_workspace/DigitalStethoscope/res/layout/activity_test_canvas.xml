@@ -5,12 +5,6 @@
     android:orientation="vertical"
     tools:context="com.example.digitalstethoscope.activities.TestCanvasActivity" >
 
-    <TextView
-        android:id="@+id/TestCanvasView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-	
 	<Button
         android:id="@+id/OpenWavButton"
         android:layout_width="match_parent"
@@ -20,10 +14,16 @@
         />
 
 	<Button
-	    android:id="@+id/TestAsyncButton"
+	    android:id="@+id/CalcFFTButton"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:onClick="onClick"
-	    android:text="@string/Start" />
+	    android:text="@string/CalcFFT" />
+	
+	<TextView
+        android:id="@+id/TestCanvasView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 	
 </LinearLayout>

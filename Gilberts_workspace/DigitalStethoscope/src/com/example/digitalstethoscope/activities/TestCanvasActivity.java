@@ -44,7 +44,7 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test_canvas);
-		start = (Button) findViewById(R.id.TestAsyncButton);
+		start = (Button) findViewById(R.id.CalcFFTButton);
 		testCanvasView = (TextView) findViewById(R.id.TestCanvasView);		
 		testCanvasView.setText("Start");
 		//testCanvasView = (TestCanvasView) findViewById(R.id.TestCanvasViewClass);
@@ -68,10 +68,10 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 	
 	public void onClick(View view) {
 		switch(view.getId()) {
-		case R.id.TestAsyncButton:			
+		case R.id.CalcFFTButton:			
 			if (this.wav != null) {
 				testCanvasView.setText("After button click wav open");
-				Log.d("debugthisshit", "After button click wav open");
+				Log.d("TestCanvasActivity", "After button click wav open");
 				int framesRead = 0;
 				double[] buffer = new double[CalcFFTTask.FFT_SIZE * this.wav.getNumChannels()];
 				try {
