@@ -44,7 +44,7 @@
         </activity>
         
         <activity
-            android:name=".animation.Animation"
+            android:name=".animation.AnimationActivity"
             android:screenOrientation="landscape"
             android:configChanges="keyboardHidden|orientation">
         </activity>

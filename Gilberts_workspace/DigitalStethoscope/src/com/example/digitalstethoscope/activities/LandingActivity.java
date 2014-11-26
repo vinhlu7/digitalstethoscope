@@ -11,16 +11,15 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.digitalstethoscope.R;
-import com.example.digitalstethoscope.animation.Animation;
+import com.example.digitalstethoscope.animation.AnimationActivity;
+import com.example.digitalstethoscope.util.bluetooth.BluetoothConnectTask;
 import com.example.digitalstethoscope.util.fileexplorer.FileChooser;
 
 public class LandingActivity extends Activity {
@@ -105,7 +104,8 @@ public class LandingActivity extends Activity {
                     }
                 }
                 if (!sockets.get(0).isConnected()) {
-                    new BluetoothConnectTask().execute(sockets.get(0));
+                    new BluetoothConnectTask(getApplicationContext())
+                            .execute(sockets.get(0));
                 } else {
                     Toast.makeText(this, "Already connected to device.",
                             Toast.LENGTH_SHORT).show();
@@ -137,8 +137,8 @@ public class LandingActivity extends Activity {
     }
 
     public void onClickTestPlotting(View v) {
-        new DelayTask().execute(5);
-        Intent intent = new Intent(this, Animation.class);
+        // new DelayTask().execute(5);
+        Intent intent = new Intent(this, AnimationActivity.class);
         startActivity(intent);
     }
 
@@ -156,73 +156,5 @@ public class LandingActivity extends Activity {
                 return;
             }
         }
-    }
-
-    public class BluetoothConnectTask extends
-            AsyncTask<BluetoothSocket, Void, Boolean> {
-
-        protected void onPreExecute() {
-            String text = "Attempting to connect to device.";
-            Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT)
-                    .show();
-            Log.d("debugthisshit", "Attempt Bluetooth Connect");
-        }
-
-        @Override
-        protected Boolean doInBackground(BluetoothSocket... params) {
-            try {
-                params[0].connect();
-            } catch (IndexOutOfBoundsException indexbound) {
-                Log.d("debugthisshit", "Index out of bounds.");
-                // Toast.makeText(getApplicationContext(),
-                // "Index out of bounds.", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                Log.d("debugthisshit", "Can't connect to socket.");
-                // Toast.makeText(getApplicationContext(),
-                // "Can't connect to socket.", Toast.LENGTH_SHORT).show();
-            }
-            // TODO Auto-generated method stub
-            return (Boolean) params[0].isConnected();
-        }
-
-        protected void onPostExecute(Boolean isConnected) {
-            String text = (isConnected) ? "Success" : "Failed";
-            Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT)
-                    .show();
-            Log.d("debugthisshit", text);
-        }
-    }
-
-    // Responsive delay to UI thread
-    // How to use:
-    // int seconds = 3;
-    // new DelayTask().execute(seconds)
-    public class DelayTask extends AsyncTask<Integer, Void, Void> {
-
-        protected void onPreExecute() {
-            Toast.makeText(getApplicationContext(), "Delay", Toast.LENGTH_SHORT)
-                    .show();
-            Log.d("debugthisshit", "DelayTask preExecute");
-        }
-
-        @Override
-        protected Void doInBackground(Integer... params) {
-            int delaymilliseconds = params[0] * 1000;
-            try {
-                Thread.sleep(delaymilliseconds);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        protected void onPostExecute(Void unused) {
-            Toast.makeText(getApplicationContext(), "Exit Delay",
-                    Toast.LENGTH_SHORT).show();
-            Log.d("debugthisshit", "DelayTask postExecute");
-        }
-
     }
 }
