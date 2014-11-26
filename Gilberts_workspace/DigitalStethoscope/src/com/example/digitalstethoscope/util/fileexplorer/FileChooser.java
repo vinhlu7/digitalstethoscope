@@ -8,6 +8,7 @@ import java.util.List;
 import com.example.digitalstethoscope.R;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -70,7 +71,13 @@ public class FileChooser extends ListActivity{
 	}
 	
 	private void onFileClick(Option o){
-    	Toast.makeText(this, "File Clicked: "+o.getName(), Toast.LENGTH_SHORT).show();
+		String fullPath;
+		fullPath = currentDir + "/" + o.getName();
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra("fullpath",fullPath);
+		setResult(RESULT_OK,returnIntent);
+		finish();
+    	Toast.makeText(this, "File Selected: "+o.getName(), Toast.LENGTH_SHORT).show();
     }
 
 }

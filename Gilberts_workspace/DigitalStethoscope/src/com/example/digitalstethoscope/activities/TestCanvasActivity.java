@@ -29,9 +29,11 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TestCanvasActivity extends Activity implements OnClickListener{
 	private WavFile wav;
+	private String fullPath;
 	
 	/* Checks if external storage is available for read and write */
 	public boolean isExternalStorageWritable() {
@@ -69,21 +71,39 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 		//new PrepareViewTask().execute();
 	}
 	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == 1) {
+	        if(resultCode == RESULT_OK){
+	            fullPath=data.getStringExtra("fullpath");
+	        }
+	    }
+	}//onActivityResult
+	
 	public void onClick(View view) {
 		switch(view.getId()) {
-		case R.id.TestAsyncButton:			
+		case R.id.TestAsyncButton:	
+			try{
+				this.wav = WavFile.openWavFile(new File(fullPath));
+
+			}catch (Exception e) {
+	            System.out.println("Error" + e);
+	        }
+			
 			if (this.wav != null) {
 				testCanvasView.setText("After button click wav open");
 				Log.d("debugthisshit", "After button click wav open");
 				int framesRead = 0;
 				double[] buffer = new double[CalcFFTTask.FFT_SIZE * this.wav.getNumChannels()];
 				try {
+					this.wav = WavFile.openWavFile(new File(fullPath));
 	                framesRead = this.wav.readFrames(buffer, CalcFFTTask.FFT_SIZE);
 	            } catch (IOException e) {
 	            } catch (WavFileException wfe) {
 	            }
 				new CalcFFTTask().execute(buffer);
 			} else {
+				Toast.makeText(this, "Please select a .WAV file first.", Toast.LENGTH_SHORT).show();
+				/*
 				testCanvasView.setText("After button click random");
 				Log.d("debugthisshit", "After button click random");
 				//new PrepareViewTask().execute();
@@ -93,14 +113,32 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 					testinput[i] = Math.random();
 				}
 				new CalcFFTTask().execute(testinput);
+				*/
 			}
 			
 		}
 	}
 	
 	public void onClickOpenWav(View view) {
-		Intent i = new Intent(this, FileChooser.class);
-    	startActivity(i);
+		
+		switch(view.getId()) {
+			case R.id.OpenWavButton:
+				Intent i = new Intent(this, FileChooser.class);
+				startActivityForResult(i,1);
+				/*
+				System.out.println("end of open wav");
+				try{
+					System.out.println("start of try in open wav");
+					this.wav = WavFile.openWavFile(new File(result));
+					numChannels = this.wav.getNumChannels();
+		            // Create a buffer of 512 frames
+		            buffer = new double[CalcFFTTask.FFT_SIZE * numChannels];
+				}catch (Exception e) {
+		            System.out.println("Error" + e);
+		        }
+				System.out.println("end of open wav");
+				*/
+		}
 		/*
 		switch(view.getId()) {
 			case R.id.OpenWavButton:
@@ -126,7 +164,6 @@ public class TestCanvasActivity extends Activity implements OnClickListener{
 				Log.d("debugthisshit", "Succes opening wav file.");				
 		}
 		*/
-		
 	}
 	
 	@Override
