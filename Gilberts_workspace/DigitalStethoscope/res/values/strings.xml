@@ -16,6 +16,9 @@
     <string name="title_activity_test_canvas">TestCanvasActivity</string>
     <string name="title_activity_test_plotting">TestPlottingActivity</string>
     
+    <string name="SchoolName"><b>San Francisco State University</b></string>
+    <string name="CourseName"><b>ENGR 697</b></string>
+    
     <string name="TextView01"></string>
     <string name="TextView02"></string>
 

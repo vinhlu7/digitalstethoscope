@@ -22,7 +22,7 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        setWillNotDraw(false);
+        //setWillNotDraw(false);
         animThread = new AnimThread(holder);
         animThread.setRunning(true);
         animThread.start();

@@ -5,6 +5,9 @@ import java.util.Random;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.Shader;
 import android.view.SurfaceHolder;
 
 public class AnimThread extends Thread {
@@ -13,15 +16,18 @@ public class AnimThread extends Thread {
     private boolean running = true;
     private int x_position = 150;
     private int rowToPaint = 0;
-    private final int WIDTH = 900;
+    private final int WIDTH = 800;
     private final int HEIGHT = 600;
     private ColorArray colorArray = new ColorArray(WIDTH, HEIGHT);
-    private float[][] sampleStft = new float[600][900];
+    private float[][] sampleStft = new float[HEIGHT][WIDTH];
+    Paint paint = new Paint();
+    Paint paintBar = new Paint(); 
     Canvas canvas = null;
     Random random = new Random();
     Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.RGB_565);
+    int[] colors = {Color.rgb(179,5,5),Color.RED,Color.rgb(255,154,1),Color.YELLOW,
+    				Color.rgb(102,255,102),Color.CYAN,Color.rgb(0,128,255),Color.rgb(13,5,232)};
 
-    // int[]pixels = new int[bitmap.getHeight()*bitmap.getWidth()];
 
     public AnimThread(SurfaceHolder holder) {
         this.holder = holder;
@@ -29,13 +35,11 @@ public class AnimThread extends Thread {
 
     @Override
     public void run() {
-        // random = new Random();
-
-        // for (int i=0; i<bitmap.getWidth()*bitmap.getHeight(); i++)
-        // pixels[i] = Color.BLUE;
+    	paint.setTextSize(paint.getTextSize()*2);
+        //for (int i=0; i<10; i++)
+         //pixels[i] = Color.BLUE;
         // bitmap.setPixels(pixels, 0, bitmap.getWidth(), 0, 0,
         // bitmap.getWidth(), bitmap.getHeight());
-
         for (int row = 0; row < HEIGHT; row++) {
             for (int column = 0; column < WIDTH; column++) {
                 sampleStft[row][column] = -100 + (int) (Math.random() * (121));
@@ -47,7 +51,20 @@ public class AnimThread extends Thread {
                 canvas = holder.lockCanvas();
                 synchronized (holder) {
                     // draw
-                    canvas.drawColor(Color.BLACK);
+                	canvas.drawColor(Color.BLACK);
+                    paint.setColor(Color.WHITE);
+                    //x-axis
+                    canvas.drawText("0", 150, 630, paint);
+                    canvas.drawText("2", 250, 630, paint);
+                    canvas.drawText("4", 350, 630, paint);
+                    canvas.drawText("6", 450, 630, paint);
+                    
+                    //y-axis
+                    canvas.drawText("0", 130, 590, paint);
+                    canvas.drawText("500", 110, 490, paint);
+                    
+                    paintBar.setShader(new LinearGradient(0, 0, 0, HEIGHT, colors, null, Shader.TileMode.MIRROR));
+                    canvas.drawRect(1070f,10f,1120f,600f,paintBar);
                     postInvalidate();
 
                 }
@@ -86,12 +103,14 @@ public class AnimThread extends Thread {
          * columnArray[252] = Color.RED; columnArray[450] = Color.RED;
          * columnArray[451] = Color.RED; columnArray[452] = Color.RED;
          */
+        
         for (int i = 0; i < HEIGHT; i++) {
             columnArray[i] = Color.RED;
-            if (colorArray.inRange(20, 0, columnArray[i])) {
-                colorArray.setRGB(columnArray[i]);
-            }
+            //if (colorArray.inRange(20, 0, columnArray[i])) {
+               // colorArray.setRGB(columnArray[i]);
+            //}
         }
+       
         colorArray.insert(columnArray);
         // for(int i=0;i<HEIGHT*10;i++){
         // pixels[i] = Color.RED;
