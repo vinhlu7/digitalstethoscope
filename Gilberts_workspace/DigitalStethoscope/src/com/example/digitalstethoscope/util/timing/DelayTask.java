@@ -11,6 +11,10 @@ import android.util.Log;
 public class DelayTask extends AsyncTask<Integer, Void, Void> {
     private Context mContext;
 
+    public DelayTask() {
+
+    }
+
     public DelayTask(Context previousContext) {
         this.mContext = previousContext;
     }

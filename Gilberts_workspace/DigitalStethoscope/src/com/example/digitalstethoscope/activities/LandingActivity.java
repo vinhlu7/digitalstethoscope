@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.digitalstethoscope.R;
-import com.example.digitalstethoscope.animation.AnimationActivity;
+import com.example.digitalstethoscope.animation.animationwiththread.AnimationActivity;
 import com.example.digitalstethoscope.util.bluetooth.BluetoothConnectTask;
 import com.example.digitalstethoscope.util.fileexplorer.FileChooser;
 
@@ -138,6 +138,7 @@ public class LandingActivity extends Activity {
 
     public void onClickTestPlotting(View v) {
         // new DelayTask().execute(5);
+        // Intent intent = new Intent(this, SpectrogramActivity.class);
         Intent intent = new Intent(this, AnimationActivity.class);
         startActivity(intent);
     }
