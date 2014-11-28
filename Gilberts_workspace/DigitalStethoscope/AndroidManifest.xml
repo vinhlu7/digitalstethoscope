@@ -44,10 +44,16 @@
         </activity>
         
         <activity
-            android:name=".animation.AnimationActivity"
+            android:name=".animation.animationwiththread.AnimationActivity"
             android:screenOrientation="landscape"
             android:configChanges="keyboardHidden|orientation">
         </activity>
+        
+        <activity
+            android:name=".animation.animationwithtask.SpectrogramActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation">
+        </activity>      
         
     </application>
 
