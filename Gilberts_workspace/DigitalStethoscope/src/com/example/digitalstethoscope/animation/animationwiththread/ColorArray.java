@@ -5,6 +5,8 @@ import android.graphics.Color;
 public class ColorArray {
     private int WIDTH;
     private int HEIGHT;
+    private int maximum;
+    private int hsvDegree;
     private int currentColumn;
     private int[] colorMapping;
 
@@ -14,6 +16,8 @@ public class ColorArray {
         currentColumn = 0;
         this.colorMapping = new int[WIDTH * HEIGHT];
         this.initColor(Color.BLACK);
+        this.maximum = 100;
+        this.hsvDegree = 240;
     }
 
     public int[] getColor() {
@@ -28,11 +32,6 @@ public class ColorArray {
         return cast;
     }
 
-    /*
-     * public void add(float[] newColor){ for (int i=0;i<newColor.length;i++){
-     * 
-     * } }
-     */
     public void insert(int[] columnArray) {
         columnArray = java.util.Arrays.copyOf(columnArray, HEIGHT);
         int row = 0;
@@ -52,21 +51,21 @@ public class ColorArray {
             colorMapping[i] = color;
         }
     }
-
-    public int setRGB(int logValue) {
-        int red = 0;
-        if (inRange(20, 0, logValue)) {
-            red = (20 - logValue) * 5;
-            return red;
-        }
-        return 0;
+    
+    public float normalization(float logValue){
+    	return (logValue/maximum)*-1;
     }
-
-    public boolean inRange(int high, int low, int logValue) {
-        // int [] range = {-20,0,20,40,60,80,100};
-        if (logValue >= low && logValue <= high) {
-            return true;
-        }
-        return false;
+    
+    public float[] setHsv(float logValue){
+    	float hue = 0;
+    	float normalized = normalization(logValue);
+    	if(normalized <= .5){
+    		hue = normalized*hsvDegree*.25f;
+    		hue += ((normalized*10)-1)*12;
+    	} else{ 
+    		hue = normalized*hsvDegree*.7f+80;
+    	}
+    	float[] hsv = {hue,1f,1f};
+    	return hsv;
     }
 }

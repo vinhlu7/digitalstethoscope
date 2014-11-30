@@ -24,6 +24,9 @@ public class AnimThread extends Thread {
     Paint paint = new Paint();
     Paint paintBar = new Paint();
     Canvas canvas = null;
+    Color color = null;
+    //float [] test = new float[3];
+    float[] test = {231f,1f,1f}; 
     Random random = new Random();
     Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.RGB_565);
     int[] colors = { Color.rgb(179, 5, 5), Color.RED, Color.rgb(255, 154, 1),
@@ -67,6 +70,14 @@ public class AnimThread extends Thread {
                     paintBar.setShader(new LinearGradient(0, 0, 0, HEIGHT,
                             colors, null, Shader.TileMode.MIRROR));
                     canvas.drawRect(1070f, 10f, 1120f, 600f, paintBar);
+                    	
+                    //Color.RGBToHSV(0,0,255,test);
+                    System.out.println("color is: " + Color.HSVToColor(0xF,test));
+                    //Color.colorToHSV(Color.RED,test);
+                    //System.out.println("stupid alpha: " + Color.alpha(Color.RED));
+                    System.out.println("Test1: "+ test[0]);
+                    System.out.println("Test2: "+ test[1]);
+                    System.out.println("Test3: "+ test[2]);
                     postInvalidate();
 
                 }
