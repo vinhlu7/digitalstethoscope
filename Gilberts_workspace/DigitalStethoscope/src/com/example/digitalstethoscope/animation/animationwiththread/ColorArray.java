@@ -37,7 +37,7 @@ public class ColorArray {
         int row = 0;
         for (int i = 0; i < colorMapping.length; i++) {
             if (i % WIDTH == currentColumn) {
-                colorMapping[i] = columnArray[row++];
+                colorMapping[i] = setHsv(columnArray[row++]);
             }
         }
         currentColumn++;
@@ -56,16 +56,17 @@ public class ColorArray {
     	return (logValue/maximum)*-1;
     }
     
-    public float[] setHsv(float logValue){
+    public int setHsv(float logValue){
     	float hue = 0;
+    	float[] hsv = {0f,1f,1f}; //hsv[0] initialized to 0. S and V are always 1f.
     	float normalized = normalization(logValue);
     	if(normalized <= .5){
     		hue = normalized*hsvDegree*.25f;
-    		hue += ((normalized*10)-1)*12;
+    		hue += ((normalized*10)-1)*13;
     	} else{ 
-    		hue = normalized*hsvDegree*.7f+80;
+    		hue = normalized*hsvDegree*.7f+76;
     	}
-    	float[] hsv = {hue,1f,1f};
-    	return hsv;
+    	hsv[0]= hue;
+    	return Color.HSVToColor(1,hsv);
     }
 }
