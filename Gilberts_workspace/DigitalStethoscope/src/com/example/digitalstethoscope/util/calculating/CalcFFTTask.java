@@ -2,7 +2,6 @@ package com.example.digitalstethoscope.util.calculating;
 
 import org.jtransforms.fft.DoubleFFT_1D;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,10 +12,7 @@ public class CalcFFTTask extends AsyncTask<double[], Void, double[]> {
 
     // private double[] result;
 
-    private Context mContext;
-
-    public CalcFFTTask(Context previousContext) {
-        this.mContext = previousContext;
+    public CalcFFTTask() {
     }
 
     protected void onPreExecute() {

@@ -79,7 +79,7 @@ public class TestCanvasActivity extends Activity implements OnClickListener {
                 } catch (IOException e) {
                 } catch (WavFileException wfe) {
                 }
-                CalcFFTTask calcffttask = new CalcFFTTask(this);
+                CalcFFTTask calcffttask = new CalcFFTTask();
                 calcffttask.execute(buffer);
 
                 try {

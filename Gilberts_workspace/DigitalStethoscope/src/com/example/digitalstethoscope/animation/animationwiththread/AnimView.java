@@ -3,6 +3,7 @@ package com.example.digitalstethoscope.animation.animationwiththread;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,6 +16,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.example.digitalstethoscope.util.calculating.CalcFFTTask;
 
 public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
         Observer {
@@ -106,7 +109,35 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
     public void update(Observable observable, Object data) {
         if (data instanceof double[]) {
             Log.d(TAG, "in animView update() callback");
+            CalcFFTTask calcffttask = new CalcFFTTask();
+            calcffttask.execute((double[]) data);
+            double[] arr = null;
+            try {
+                arr = calcffttask.get();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                Log.d(TAG, "Interrupted fft task");
+            } catch (ExecutionException e) {
+                // TODO Auto-generated catch block
+                Log.d(TAG, "Execution fft task");
+            }
+            StringBuilder debugresults = new StringBuilder();
+            debugresults.append("Debug results: ");
+            for (int i = 0; i < 10; i++) {
+                debugresults.append(String.format("%.4f, ", arr[i]));
+            }
 
+            Log.d(TAG, debugresults.toString());
+
+            int[] scaled = scaleFFTResults(arr);
+
+            StringBuilder debugscaled = new StringBuilder();
+            debugscaled.append("Debug scaled: ");
+            for (int i = 0; i < 10; i++) {
+                debugscaled.append(String.format("%d, ", scaled[i]));
+            }
+
+            Log.d(TAG, debugscaled.toString());
             // run method
             try {
                 canvas = holder.lockCanvas();
@@ -132,8 +163,24 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
                     Log.d(TAG, "Screen has been refreshed in postInvalidate");
                     int[] columnArray = new int[HEIGHT];
 
-                    for (int i = 0; i < HEIGHT; i++) {
-                        columnArray[i] = Color.RED;
+                    // columnArray values should be from 0 to -120
+                    // 0 for darkest red, -120 for darkest blue
+                    // for (int i = 0; i < scaled.length; i += 2) {
+                    // // columnArray[i] = (int) (Math.random() * -120);
+                    // // columnArray[i + 1] = (int) (Math.random() * -120);
+                    // // if (scaled != null) {
+                    // columnArray[i] = scaled[i / 2];
+                    // columnArray[i + 1] = scaled[i / 2];
+                    // // }
+                    // }
+
+                    // no expanded version
+                    for (int i = 0; i < scaled.length; i++) {
+                        // columnArray[i] = (int) (Math.random() * -120);
+                        // columnArray[i + 1] = (int) (Math.random() * -120);
+                        // if (scaled != null) {
+                        columnArray[i] = scaled[i];
+                        // }
                     }
 
                     colorArray.insert(columnArray);
@@ -151,6 +198,32 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
                 }
             }
 
+        }
+
+    }
+
+    private int[] scaleFFTResults(double[] results) {
+        // format the data
+        // sum(hann(512)) = 255
+        // s = abs(s)/(wlen^2)/255
+        // double scale = 255 / (512 ^ 2);
+        double scale = 1;
+        int[] absolute = new int[results.length];
+        if (results.length == 0) {
+            return null;
+        } else {
+            // build new absolute array; should be size 256
+            absolute = new int[results.length / 2];
+            double inter = 0.0;
+            for (int i = 0; i < results.length / 2; i++) {
+                inter = (scale * (Math.sqrt(Math.pow(results[i], 2.0)
+                        + Math.pow(results[i + 1], 2.0))));
+                absolute[i] = (int) (20 * Math.log10(inter));
+                // absolute[i] = (int) (Math.random() * -120);
+            }
+
+            // scale
+            return absolute;
         }
 
     }
