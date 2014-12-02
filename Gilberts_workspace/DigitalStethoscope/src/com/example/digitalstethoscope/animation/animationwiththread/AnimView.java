@@ -28,6 +28,7 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
 
     // from animThread
     private int x_position = 150;
+    private float [] test = {40f,1f,1f};
     private int rowToPaint = 0;
     private final int WIDTH = 800;
     private final int HEIGHT = 600;
@@ -161,7 +162,7 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
 
                     // postinvalidate
                     Log.d(TAG, "Screen has been refreshed in postInvalidate");
-                    int[] columnArray = new int[HEIGHT];
+                    double[] columnArray = new double[HEIGHT];
 
                     // columnArray values should be from 0 to -120
                     // 0 for darkest red, -120 for darkest blue
@@ -179,13 +180,14 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
                         // columnArray[i] = (int) (Math.random() * -120);
                         // columnArray[i + 1] = (int) (Math.random() * -120);
                         // if (scaled != null) {
+                    	//System.out.println("scaled is: "+ scaled[i]);
                         columnArray[i] = scaled[i];
+                    	//columnArray[i] = -40;
                         // }
                     }
-
                     colorArray.insert(columnArray);
-                    bitmap = Bitmap.createBitmap(colorArray.castInt(), WIDTH,
-                            HEIGHT, Bitmap.Config.RGB_565);
+                    bitmap = Bitmap.createBitmap(colorArray.getColor(), WIDTH,
+                            HEIGHT, Bitmap.Config.RGB_565); //was colorArray.castInt()
                     canvas.drawBitmap(bitmap, x_position, 0, null);
                     bitmap = null;
                 }

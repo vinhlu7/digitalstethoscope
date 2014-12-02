@@ -106,7 +106,7 @@ public class AnimThread extends Thread implements Observer {
 
     private void postInvalidate() {
         Log.d(TAG, "Screen has been refreshed in postInvalidate");
-        int[] columnArray = new int[HEIGHT];
+        double [] columnArray = new double[HEIGHT];
 
         for (int i = 0; i < HEIGHT; i++) {
            //columnArray[i] = Color.RED;
@@ -114,7 +114,7 @@ public class AnimThread extends Thread implements Observer {
         }
 
         colorArray.insert(columnArray);
-        bitmap = Bitmap.createBitmap(colorArray.castInt(), WIDTH, HEIGHT,
+        bitmap = Bitmap.createBitmap(colorArray.getColor(), WIDTH, HEIGHT,
                 Bitmap.Config.RGB_565);
         canvas.drawBitmap(bitmap, x_position, 0, null);
         bitmap = null;
