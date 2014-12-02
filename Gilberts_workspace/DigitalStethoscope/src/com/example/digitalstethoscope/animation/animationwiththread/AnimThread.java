@@ -27,6 +27,9 @@ public class AnimThread extends Thread implements Observer {
     Paint paint = new Paint();
     Paint paintBar = new Paint();
     Canvas canvas = null;
+    Color color = null;
+    //float [] test = new float[3];
+    float[] test = {174f,1f,1f}; 
     Random random = new Random();
     Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.RGB_565);
     int[] colors = { Color.rgb(179, 5, 5), Color.RED, Color.rgb(255, 154, 1),
@@ -51,31 +54,41 @@ public class AnimThread extends Thread implements Observer {
 
         while (running) {
             try {
-                if (this.refresh) {
-                    canvas = holder.lockCanvas();
-                    synchronized (holder) {
-                        // draw
-                        canvas.drawColor(Color.BLACK);
-                        paint.setColor(Color.WHITE);
-                        // x-axis
-                        canvas.drawText("0", 150, 630, paint);
-                        canvas.drawText("2", 250, 630, paint);
-                        canvas.drawText("4", 350, 630, paint);
-                        canvas.drawText("6", 450, 630, paint);
+                canvas = holder.lockCanvas();
+                synchronized (holder) {
+                    // draw
+                    canvas.drawColor(Color.BLACK);
+                    paint.setColor(Color.WHITE);
+                    // x-axis
+                    canvas.drawText("0", 150, 630, paint);
+                    canvas.drawText("2", 250, 630, paint);
+                    canvas.drawText("4", 350, 630, paint);
+                    canvas.drawText("6", 450, 630, paint);
 
-                        // y-axis
-                        canvas.drawText("0", 130, 590, paint);
-                        canvas.drawText("500", 110, 490, paint);
+                    // y-axis
+                    canvas.drawText("0", 130, 590, paint);
+                    canvas.drawText("500", 110, 490, paint);
 
-                        paintBar.setShader(new LinearGradient(0, 0, 0, HEIGHT,
-                                colors, null, Shader.TileMode.MIRROR));
-                        canvas.drawRect(1070f, 10f, 1120f, 600f, paintBar);
-                        // postInvalidate();
-
-                        postInvalidate();
-
-                        // this.refresh = false;
-                    }
+                    // color key bar
+                    paintBar.setShader(new LinearGradient(0, 0, 0, HEIGHT,
+                            colors, null, Shader.TileMode.MIRROR));
+                    canvas.drawRect(1070f, 10f, 1120f, 600f, paintBar);
+                    canvas.drawText("0", 1130, 40, paint);
+                    canvas.drawText("-20", 1130, 130, paint);
+                    canvas.drawText("-40", 1130, 240, paint);
+                    canvas.drawText("-60", 1130, 350, paint);
+                    canvas.drawText("-80", 1130, 460, paint);
+                    canvas.drawText("-100", 1130, 540, paint);
+                    canvas.drawText("-120", 1130, 600, paint);
+                    	
+                    
+                    //Color.RGBToHSV(0,0,255,test);
+                   // System.out.println("color is: " + Color.HSVToColor(1,test));
+                    //Color.colorToHSV(Color.RED,test);
+                    //System.out.println("Test1: "+ test[0]);
+                   // System.out.println("Test2: "+ test[1]);
+                   // System.out.println("Test3: "+ test[2]);
+                    postInvalidate();
                 }
                 this.refresh = false;
 
@@ -95,7 +108,8 @@ public class AnimThread extends Thread implements Observer {
         int[] columnArray = new int[HEIGHT];
 
         for (int i = 0; i < HEIGHT; i++) {
-            columnArray[i] = Color.RED;
+           //columnArray[i] = Color.RED;
+            columnArray[i] = -120 + (int)(Math.random()*(121));
         }
 
         colorArray.insert(columnArray);
