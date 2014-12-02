@@ -104,7 +104,7 @@ public class AnimThread extends Thread implements Observer {
 
     private void postInvalidate() {
         Log.d(TAG, "Screen has been refreshed in postInvalidate");
-        int[] columnArray = new int[HEIGHT];
+        double [] columnArray = new double[HEIGHT];
 
         for (int i = 0; i < HEIGHT; i++) {
             // columnArray[i] = Color.RED;

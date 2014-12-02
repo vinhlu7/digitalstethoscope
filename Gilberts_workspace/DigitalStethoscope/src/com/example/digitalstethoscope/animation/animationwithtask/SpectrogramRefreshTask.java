@@ -35,7 +35,7 @@ public class SpectrogramRefreshTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... unused) {
         Log.d("SpectrogramRefreshTask", "doInBackground");
 
-        int[] columnArray = new int[HEIGHT];
+        double[] columnArray = new double[HEIGHT];
         for (int i = 0; i < HEIGHT; i++) {
             columnArray[i] = Color.RED;
         }

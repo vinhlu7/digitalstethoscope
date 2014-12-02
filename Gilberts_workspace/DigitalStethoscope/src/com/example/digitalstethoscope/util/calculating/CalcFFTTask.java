@@ -9,6 +9,7 @@ public class CalcFFTTask extends AsyncTask<double[], Void, double[]> {
     public final static int FFT_SIZE = 512;
     private static final String TAG = "CalcFFTTask";
     private static final int RESULTS_LENGTH = 257; // FFT_SIZE+1/2
+    private Window window = null;
 
     protected void onPreExecute() {
         String text = "Performing FFT. Simulated slowdown.";
@@ -18,11 +19,13 @@ public class CalcFFTTask extends AsyncTask<double[], Void, double[]> {
     @Override
     protected double[] doInBackground(double[]... params) {
         DoubleFFT_1D fft = new DoubleFFT_1D(FFT_SIZE);
+        window = new Window(FFT_SIZE, Window.WindowType.HANN);
         // x is twice the size because theres real components and complex
         // even parts of the x array are the real components
         // odd parts of the x array are the complex components
         double[] intermediate = java.util.Arrays
                 .copyOf(params[0], FFT_SIZE * 2);
+        this.applyWindow(intermediate);
         // x.length = 1024
         // fft.realForwardFull(intermediate);
         fft.realForwardFull(intermediate);
@@ -33,6 +36,13 @@ public class CalcFFTTask extends AsyncTask<double[], Void, double[]> {
         // Toast.makeText(mContext, "Finished FFT calculations.",
         // Toast.LENGTH_SHORT).show();
         Log.d(TAG, "Finished FFT calculations.");
+    }
+
+    private void applyWindow(double[] intermediate) {
+        for (int i = 0; i < this.window.getLength(); i++) {
+            intermediate[2 * i] *= this.window.getPoint(i);
+            intermediate[2 * i + 1] *= this.window.getPoint(i);
+        }
     }
 
     private double[] formatResults(double[] intermediate) {
@@ -49,7 +59,7 @@ public class CalcFFTTask extends AsyncTask<double[], Void, double[]> {
         // intermediate is size 1024 with bottom half all zero
         for (int i = 0; i < RESULTS_LENGTH; i++) {
             // absolute of complex number
-            inter = (scale * (Math.sqrt(Math.pow(intermediate[i * 2], 2.0)
+            inter = ((Math.sqrt(Math.pow(intermediate[i * 2], 2.0)
                     + Math.pow(intermediate[i * 2 + 1], 2.0))));
             // scale by sum(window)/(wlen^2)
             absolute[i] = scale * inter;
