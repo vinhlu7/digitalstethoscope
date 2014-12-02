@@ -46,12 +46,13 @@ public class AnimThread extends Thread implements Observer {
     public void run() {
         Log.d(TAG, "Running");
         paint.setTextSize(paint.getTextSize() * 2);
+        /*
         for (int row = 0; row < HEIGHT; row++) {
             for (int column = 0; column < WIDTH; column++) {
                 sampleStft[row][column] = -100 + (int) (Math.random() * (121));
             }
         }
-
+		*/
         while (running) {
             try {
                 canvas = holder.lockCanvas();

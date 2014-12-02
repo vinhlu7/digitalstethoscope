@@ -20,6 +20,7 @@
     
     <string name="SchoolName"><b>San Francisco State University</b></string>
     <string name="CourseName"><b>ENGR 697</b></string>
+    <string name="GroupMembers"><b>Group Members: </b>Khim C., Juan L., Lok kee L., Vinh L., Gilbert S.</string>
     
     <string name="TextView01"></string>
     <string name="TextView02"></string>

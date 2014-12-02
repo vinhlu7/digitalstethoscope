@@ -58,6 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/SchoolName"
+        android:textColor="#7E00FC"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -65,6 +66,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/CourseName"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/GroupMembers"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>

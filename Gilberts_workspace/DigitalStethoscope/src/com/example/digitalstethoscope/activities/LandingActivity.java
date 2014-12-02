@@ -137,10 +137,12 @@ public class LandingActivity extends Activity {
     }
 
     public void onClickTestPlotting(View v) {
+    	/*
         // new DelayTask().execute(5);
         // Intent intent = new Intent(this, SpectrogramActivity.class);
         Intent intent = new Intent(this, AnimationActivity.class);
         startActivity(intent);
+        */
     }
 
     public void onClickTestCanvas(View v) {
