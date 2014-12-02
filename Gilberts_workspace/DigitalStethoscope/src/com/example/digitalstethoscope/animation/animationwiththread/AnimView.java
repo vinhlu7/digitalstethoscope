@@ -22,171 +22,147 @@ import com.example.digitalstethoscope.util.calculating.CalcFFTTask;
 public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
         Observer {
 
-    private SurfaceHolder holder;
-    private AnimThread animThread;
     private static final String TAG = "AnimView";
+    private static final int HORIZONTAL_OFFSET = 150;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
+    private static final int[] DBFS_MAP = { Color.rgb(179, 5, 5), Color.RED,
+            Color.rgb(255, 154, 1), Color.YELLOW, Color.rgb(102, 255, 102),
+            Color.CYAN, Color.rgb(0, 128, 255), Color.rgb(13, 5, 232) };
 
-    // from animThread
-    private int x_position = 150;
-    private int rowToPaint = 0;
-    private final int WIDTH = 800;
-    private final int HEIGHT = 600;
-    private ColorArray colorArray = new ColorArray(WIDTH, HEIGHT);
-    private float[][] sampleStft = new float[HEIGHT][WIDTH];
-    Paint paint = new Paint();
-    Paint paintBar = new Paint();
-    Canvas canvas = null;
-    Random random = new Random();
-    Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.RGB_565);
-    int[] colors = { Color.rgb(179, 5, 5), Color.RED, Color.rgb(255, 154, 1),
-            Color.YELLOW, Color.rgb(102, 255, 102), Color.CYAN,
-            Color.rgb(0, 128, 255), Color.rgb(13, 5, 232) };
+    private SurfaceHolder holder;
+    private ColorArray colorArray = null;
+    private Paint paint = null;
+    private Paint paintBar = null;
+    private Canvas canvas = null;
+    private Random random = null;
+    private Bitmap bitmap = null;
+    private int[] columnArray = null;
 
     public AnimView(Context context) {
         super(context);
-        this.holder = getHolder();
+        this.init();
         holder.addCallback(this);
-        // animThread = new AnimThread(holder);
     }
 
     public AnimView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.holder = getHolder();
+        this.init();
         holder.addCallback(this);
-        // animThread = new AnimThread(holder);
     }
 
     public AnimView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.holder = getHolder();
+        this.init();
         holder.addCallback(this);
-        // animThread = new AnimThread(holder);
     }
 
-    // public Thread getAnimThread() {
-    // return this.animThread;
-    // }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width,
-            int height) {
-        Log.d("AnimView", "surfaceChanged()");
-        this.holder = holder;
-        // if (this.animThread.isAlive()) {
-        // this.animThread.interrupt();
-        // }
-        // animThread = new AnimThread(holder);
-        // animThread.setRunning(true);
-        // animThread.start();
+    private void init() {
+        this.holder = getHolder();
+        this.colorArray = new ColorArray(WIDTH, HEIGHT);
+        this.paint = new Paint();
+        this.paintBar = new Paint();
+        this.canvas = null;
+        this.random = new Random();
+        this.bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.RGB_565);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d("AnimView", "surfaceCreated()");
         this.holder = holder;
-        // setWillNotDraw(false);
-        // animThread = new AnimThread(holder);
-        // animThread.setRunning(true);
-        // animThread.start();
+        paint.setTextSize(paint.getTextSize() * 2);
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width,
+            int height) {
+        Log.d("AnimView", "surfaceChanged()");
+        this.holder = holder;
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.d("AnimView", "surfaceDestroyed()");
         this.holder = holder;
-        // boolean retry = true;
-        // // animThread.setRunning(false);
-        // while (retry) {
-        // try {
-        // animThread.join();
-        // retry = false;
-        // } catch (InterruptedException e) {
-        // }
-        // }
+    }
+
+    private void drawStatic(Canvas canvas) {
+        // draw
+        canvas.drawColor(Color.BLACK);
+        paint.setColor(Color.WHITE);
+        // x-axis
+        canvas.drawText("0", 150, 630, paint);
+        canvas.drawText("2", 250, 630, paint);
+        canvas.drawText("4", 350, 630, paint);
+        canvas.drawText("6", 450, 630, paint);
+
+        // y-axis
+        canvas.drawText("0", 130, 590, paint);
+        canvas.drawText("500", 110, 490, paint);
+
+        // color key bar
+        paintBar.setShader(new LinearGradient(0, 0, 0, HEIGHT, DBFS_MAP, null,
+                Shader.TileMode.MIRROR));
+        canvas.drawRect(1070f, 10f, 1120f, 600f, paintBar);
+        canvas.drawText("0", 1130, 40, paint);
+        canvas.drawText("-20", 1130, 130, paint);
+        canvas.drawText("-40", 1130, 240, paint);
+        canvas.drawText("-60", 1130, 350, paint);
+        canvas.drawText("-80", 1130, 460, paint);
+        canvas.drawText("-100", 1130, 540, paint);
+        canvas.drawText("-120", 1130, 600, paint);
     }
 
     @Override
+    // Refresh the screen when frame is ready to be processed
     public void update(Observable observable, Object data) {
         if (data instanceof double[]) {
             Log.d(TAG, "in animView update() callback");
             CalcFFTTask calcffttask = new CalcFFTTask();
             calcffttask.execute((double[]) data);
-            double[] arr = null;
+            double[] fftResults = null;
             try {
-                arr = calcffttask.get();
+                // get the formatted results, not the raw
+                fftResults = calcffttask.get();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 Log.d(TAG, "Interrupted fft task");
             } catch (ExecutionException e) {
-                // TODO Auto-generated catch block
                 Log.d(TAG, "Execution fft task");
             }
-            StringBuilder debugresults = new StringBuilder();
-            debugresults.append("Debug results: ");
-            for (int i = 0; i < 10; i++) {
-                debugresults.append(String.format("%.4f, ", arr[i]));
-            }
+            // StringBuilder debugresults = new StringBuilder();
+            // debugresults.append("Debug results: ");
+            // for (int i = 0; i < 10; i++) {
+            // debugresults.append(String.format("%.4f, ", fftResults[i]));
+            // }
+            // Log.d(TAG, debugresults.toString());
+            //
+            // StringBuilder debugscaled = new StringBuilder();
+            // debugscaled.append("Debug scaled: ");
+            // for (int i = 0; i < 10; i++) {
+            // debugscaled.append(String.format("%d, ", scaled[i]));
+            // }
+            // Log.d(TAG, debugscaled.toString());
 
-            Log.d(TAG, debugresults.toString());
-
-            int[] scaled = scaleFFTResults(arr);
-
-            StringBuilder debugscaled = new StringBuilder();
-            debugscaled.append("Debug scaled: ");
-            for (int i = 0; i < 10; i++) {
-                debugscaled.append(String.format("%d, ", scaled[i]));
-            }
-
-            Log.d(TAG, debugscaled.toString());
             // run method
             try {
                 canvas = holder.lockCanvas();
                 synchronized (holder) {
-                    // draw
-                    canvas.drawColor(Color.BLACK);
-                    paint.setColor(Color.WHITE);
-                    // x-axis
-                    canvas.drawText("0", 150, 630, paint);
-                    canvas.drawText("2", 250, 630, paint);
-                    canvas.drawText("4", 350, 630, paint);
-                    canvas.drawText("6", 450, 630, paint);
+                    // draw static elements to screen
+                    this.drawStatic(canvas);
 
-                    // y-axis
-                    canvas.drawText("0", 130, 590, paint);
-                    canvas.drawText("500", 110, 490, paint);
+                    // Log.d(TAG,
+                    // "Screen has been refreshed in postInvalidate");
 
-                    paintBar.setShader(new LinearGradient(0, 0, 0, HEIGHT,
-                            colors, null, Shader.TileMode.MIRROR));
-                    canvas.drawRect(1070f, 10f, 1120f, 600f, paintBar);
+                    // this needs to be in CalcFFTTask; format there
+                    // format fft results before insert
 
-                    // postinvalidate
-                    Log.d(TAG, "Screen has been refreshed in postInvalidate");
-                    int[] columnArray = new int[HEIGHT];
+                    // end
 
-                    // columnArray values should be from 0 to -120
-                    // 0 for darkest red, -120 for darkest blue
-                    // for (int i = 0; i < scaled.length; i += 2) {
-                    // // columnArray[i] = (int) (Math.random() * -120);
-                    // // columnArray[i + 1] = (int) (Math.random() * -120);
-                    // // if (scaled != null) {
-                    // columnArray[i] = scaled[i / 2];
-                    // columnArray[i + 1] = scaled[i / 2];
-                    // // }
-                    // }
-
-                    // no expanded version
-                    for (int i = 0; i < scaled.length; i++) {
-                        // columnArray[i] = (int) (Math.random() * -120);
-                        // columnArray[i + 1] = (int) (Math.random() * -120);
-                        // if (scaled != null) {
-                        columnArray[i] = scaled[i];
-                        // }
-                    }
-
-                    colorArray.insert(columnArray);
+                    colorArray.insert(fftResults);
                     bitmap = Bitmap.createBitmap(colorArray.castInt(), WIDTH,
                             HEIGHT, Bitmap.Config.RGB_565);
-                    canvas.drawBitmap(bitmap, x_position, 0, null);
+                    canvas.drawBitmap(bitmap, HORIZONTAL_OFFSET, 0, null);
                     bitmap = null;
                 }
 
@@ -198,32 +174,6 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
                 }
             }
 
-        }
-
-    }
-
-    private int[] scaleFFTResults(double[] results) {
-        // format the data
-        // sum(hann(512)) = 255
-        // s = abs(s)/(wlen^2)/255
-        // double scale = 255 / (512 ^ 2);
-        double scale = 1;
-        int[] absolute = new int[results.length];
-        if (results.length == 0) {
-            return null;
-        } else {
-            // build new absolute array; should be size 256
-            absolute = new int[results.length / 2];
-            double inter = 0.0;
-            for (int i = 0; i < results.length / 2; i++) {
-                inter = (scale * (Math.sqrt(Math.pow(results[i], 2.0)
-                        + Math.pow(results[i + 1], 2.0))));
-                absolute[i] = (int) (20 * Math.log10(inter));
-                // absolute[i] = (int) (Math.random() * -120);
-            }
-
-            // scale
-            return absolute;
         }
 
     }

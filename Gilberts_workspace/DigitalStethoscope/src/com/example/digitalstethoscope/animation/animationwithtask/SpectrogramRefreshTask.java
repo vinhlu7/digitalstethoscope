@@ -39,7 +39,7 @@ public class SpectrogramRefreshTask extends AsyncTask<Void, Void, Void> {
         for (int i = 0; i < HEIGHT; i++) {
             columnArray[i] = Color.RED;
         }
-        this.colorArray.insert(columnArray);
+        // this.colorArray.insert(columnArray);
         Bitmap bitmap = Bitmap.createBitmap(colorArray.castInt(), WIDTH,
                 HEIGHT, Bitmap.Config.RGB_565);
         canvas.drawBitmap(bitmap, x_position, 0, null);

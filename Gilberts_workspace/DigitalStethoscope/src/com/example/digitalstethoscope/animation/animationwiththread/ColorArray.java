@@ -16,8 +16,8 @@ public class ColorArray {
         currentColumn = 0;
         this.colorMapping = new int[WIDTH * HEIGHT];
         this.initColor(Color.BLACK);
-        this.maximum = -120; //Color mapping from 0 to -120
-        this.hueDegree = 240; //Java Hue degree color from red to darkest blue
+        this.maximum = -120; // Color mapping from 0 to -120
+        this.hueDegree = 240; // Java Hue degree color from red to darkest blue
     }
 
     public int[] getColor() {
@@ -32,7 +32,7 @@ public class ColorArray {
         return cast;
     }
 
-    public void insert(int[] columnArray) {
+    public void insert(double[] columnArray) {
         columnArray = java.util.Arrays.copyOf(columnArray, HEIGHT);
         int row = 0;
         for (int i = 0; i < colorMapping.length; i++) {
@@ -51,22 +51,23 @@ public class ColorArray {
             colorMapping[i] = color;
         }
     }
-    
-    public float normalization(float logValue){
-    	return (logValue/maximum);
+
+    public double normalization(double logValue) {
+        return (logValue / maximum);
     }
-    
-    public int setHsv(float logValue){
-    	float hue = 0;
-    	float[] hsv = {0f,1f,1f}; //hsv[0] initialized to 0. S and V are always 1f.
-    	float normalized = normalization(logValue);
-    	if(normalized <= .5){
-    		hue = normalized*hueDegree*.25f;
-    		hue += ((normalized*10)-1)*13;
-    	} else{ 
-    		hue = normalized*hueDegree*.7f+76;
-    	}
-    	hsv[0]= hue;
-    	return Color.HSVToColor(1,hsv);
+
+    public int setHsv(double columnArray) {
+        double hue = 0;
+        float[] hsv = { 0f, 1f, 1f }; // hsv[0] initialized to 0. S and V are
+                                      // always 1f.
+        double normalized = normalization(columnArray);
+        if (normalized <= .5) {
+            hue = normalized * hueDegree * .25f;
+            hue += ((normalized * 10) - 1) * 13;
+        } else {
+            hue = normalized * hueDegree * .7f + 76;
+        }
+        hsv[0] = (float) hue;
+        return Color.HSVToColor(1, hsv);
     }
 }
