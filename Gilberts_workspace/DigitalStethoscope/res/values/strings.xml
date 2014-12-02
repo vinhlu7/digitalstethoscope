@@ -8,10 +8,12 @@
     <string name="ConnectDevice">Connect Device</string>
     <string name="OpenWaveFile">Open Wave File</string>
     <string name="RealtimeStreaming">Realtime Streaming</string>
+    <string name="TestRealTime">Test RealTime</string>
     <string name="TestPlotting">Test Plotting</string>
     <string name="TestCanvas">Test Canvas</string>
     <string name="CalcFFT">Calculate FFT</string>
     <string name="OpenWavFile">Open Wav File</string>
+    <string name="PlotWav">Plot Wav</string>
     <string name="title_activity_realtime">RealtimeActivity</string>
     <string name="title_activity_test_canvas">TestCanvasActivity</string>
     <string name="title_activity_test_plotting">TestPlottingActivity</string>

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.digitalstethoscope.R;
+import com.example.digitalstethoscope.animation.animationwiththread.AnimationActivity;
 import com.example.digitalstethoscope.util.calculating.CalcFFTTask;
 import com.example.digitalstethoscope.util.fileexplorer.FileChooser;
 
@@ -117,7 +118,36 @@ public class TestCanvasActivity extends Activity implements OnClickListener {
                  * = Math.random(); } new CalcFFTTask().execute(testinput);
                  */
             }
+        case R.id.PlotWavButton:
+            if (this.wav != null) {
+                // testCanvasView.setText("After button click wav open");
+                Log.d("TestCanvasActivity", "After button click plot wav");
 
+                Intent animation = new Intent(this, AnimationActivity.class);
+                // pass full path of wav as a string
+                animation.putExtra("fullpath", this.fullPath);
+                startActivity(animation);
+
+                // create new thread to open the wav file and read samples
+                // this is the subject being observed
+                // WavFileReader reader = new WavFileReader(this.wav);
+
+                // create the event handler to update the screen
+                // this is the observer that updates status
+                // AnimView viewtest = new AnimView(this);
+
+                // subscribe the observer to the event source/observable
+                // reader.addObserver(viewtest);
+                // setContentView(viewtest);
+                // viewtest.getAnimThread().start();
+
+                // Thread filereading = new Thread(reader);
+                // filereading.start();
+
+            } else {
+                Toast.makeText(this, "Please select a .WAV file first.",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

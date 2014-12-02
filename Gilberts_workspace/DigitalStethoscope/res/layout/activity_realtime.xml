@@ -5,6 +5,14 @@
     android:orientation="vertical"
     tools:context="com.example.digitalstethoscope.activities.RealtimeActivity" >
 
+    <Button
+        android:id="@+id/TestRealTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickTestReal"
+        android:text="@string/TestRealTime"
+        />
+
     <TextView
         android:id="@+id/TestTextView"
         android:layout_width="match_parent"

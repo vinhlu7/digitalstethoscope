@@ -20,6 +20,18 @@
 	    android:onClick="onClick"
 	    android:text="@string/CalcFFT" />
 	
+	<Button
+	    android:id="@+id/PlotWavButton"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:onClick="onClick"
+	    android:text="@string/PlotWav" />
+	
+	<com.example.digitalstethoscope.animation.animationwiththread.AnimView
+        android:id="@+id/animview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+	
 	<TextView
         android:id="@+id/TestCanvasView"
         android:layout_width="match_parent"
