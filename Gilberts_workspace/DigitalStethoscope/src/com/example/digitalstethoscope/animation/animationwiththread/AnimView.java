@@ -91,15 +91,17 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
         // draw
         canvas.drawColor(Color.BLACK);
         paint.setColor(Color.WHITE);
-        // x-axis
-        canvas.drawText("0", 150, 630, paint);
-        canvas.drawText("2", 250, 630, paint);
-        canvas.drawText("4", 350, 630, paint);
-        canvas.drawText("6", 450, 630, paint);
 
         // y-axis
         canvas.drawText("0", 130, 590, paint);
-        canvas.drawText("500", 110, 490, paint);
+        canvas.drawText("500", 110, 530, paint);
+        canvas.drawText("1000", 95, 470, paint);
+        canvas.drawText("1500", 95, 410, paint);
+        canvas.drawText("2000", 95, 350, paint);
+        canvas.drawText("2500", 95, 290, paint);
+        canvas.drawText("3000", 95, 230, paint);
+        canvas.drawText("3500", 95, 170, paint);
+        canvas.drawText("4000", 95, 110, paint);
 
         // color key bar
         paintBar.setShader(new LinearGradient(0, 0, 0, HEIGHT, DBFS_MAP, null,
