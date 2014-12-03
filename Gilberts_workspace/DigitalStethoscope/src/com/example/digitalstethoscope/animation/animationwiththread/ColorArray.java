@@ -38,7 +38,11 @@ public class ColorArray {
         int row = 0;
         for (int i = 0; i < colorMapping.length; i++) {
             if (i % WIDTH == currentColumn) {
-                colorMapping[i] = setHsv(columnArray[row++]);
+                if (row < columnArray.length) {
+                    colorMapping[i] = setHsv(columnArray[columnArray.length - 1
+                            - row]);
+                    row++;
+                }
             }
         }
         currentColumn++;

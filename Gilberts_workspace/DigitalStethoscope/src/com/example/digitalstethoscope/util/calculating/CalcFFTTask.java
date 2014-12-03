@@ -29,7 +29,8 @@ public class CalcFFTTask extends AsyncTask<double[], Void, double[]> {
         // x.length = 1024
         // fft.realForwardFull(intermediate);
         fft.realForwardFull(intermediate);
-        return this.formatResults(intermediate);
+        // return this.formatResults(intermediate);
+        return this.expandResult(this.formatResults(intermediate));
     }
 
     protected void onPostExecute(double[] result) {
@@ -73,6 +74,14 @@ public class CalcFFTTask extends AsyncTask<double[], Void, double[]> {
 
         // scale
         return absolute;
+    }
 
+    private double[] expandResult(double[] flat) {
+        double[] temp = java.util.Arrays.copyOf(flat, flat.length * 2);
+        for (int i = 0; i < flat.length; i++) {
+            temp[2 * i] = flat[i];
+            temp[2 * i + 1] = flat[i];
+        }
+        return temp;
     }
 }
