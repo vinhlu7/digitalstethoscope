@@ -66,6 +66,7 @@ public class TestCanvasActivity extends Activity implements OnClickListener {
 
     public void onClick(View view) {
         switch (view.getId()) {
+        
         case R.id.CalcFFTButton:
             if (this.wav != null) {
                 testCanvasView.setText("After button click wav open");
@@ -118,6 +119,7 @@ public class TestCanvasActivity extends Activity implements OnClickListener {
                  * = Math.random(); } new CalcFFTTask().execute(testinput);
                  */
             }
+        
         case R.id.PlotWavButton:
             if (this.wav != null) {
                 // testCanvasView.setText("After button click wav open");

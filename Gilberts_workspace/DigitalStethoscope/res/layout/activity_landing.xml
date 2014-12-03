@@ -38,14 +38,6 @@
         />
     
     <Button
-        android:id="@+id/TestPlottingButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onClickTestPlotting"
-        android:text="@string/TestPlotting"
-        />
-    
-    <Button
         android:id="@+id/TestCanvasButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,24 +47,19 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/SchoolName"
-        android:textColor="#7E00FC"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#7E00FC" />
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/CourseName"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/GroupMembers"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>
