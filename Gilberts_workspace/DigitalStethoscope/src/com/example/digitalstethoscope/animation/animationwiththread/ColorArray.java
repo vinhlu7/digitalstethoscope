@@ -67,20 +67,28 @@ public class ColorArray {
         double hue = 0;
         float[] hsv = { 0f, 1f, 1f }; // hsv[0] initialized to 0. S and V are
                                       // always 1f.
-        double normalized = normalization(logValue); // normalized = .333 for
-                                                     // 40)
-        if (normalized < .5) {
-            hue = normalized * hueDegree * .25f; // 20
-            hue += ((normalized * 12) - 1) * 13; // check hue value if color
-                                                 // mapping is wrong. hue =
-                                                 // 20+(.33333*12)-1
-            // System.out.println("Hue is: " + hue); //should be 59
+        if (logValue == 0) {
+            hsv[0] = 120f;
+            hsv[1] = 0f;
+            hsv[2] = 0f;
         } else {
-            hue = normalized * hueDegree * .7f + 76;
+            double normalized = normalization(logValue); // normalized = .333
+                                                         // for
+                                                         // 40)
+            if (normalized < .5) {
+                hue = normalized * hueDegree * .25f; // 20
+                hue += ((normalized * 12) - 1) * 13; // check hue value if color
+                                                     // mapping is wrong. hue =
+                                                     // 20+(.33333*12)-1
+                // System.out.println("Hue is: " + hue); //should be 59
+            } else {
+                hue = normalized * hueDegree * .7f + 76;
+            }
+            hsv[0] = (float) hue;
+            // System.out.println("Hue is: " + hue);
+            // System.out.println("hsv to color is: " + Color.HSVToColor(1,hsv)
+            // );
         }
-        hsv[0] = (float) hue;
-        // System.out.println("Hue is: " + hue);
-        // System.out.println("hsv to color is: " + Color.HSVToColor(1,hsv) );
         return Color.HSVToColor(1, hsv);
     }
 }
