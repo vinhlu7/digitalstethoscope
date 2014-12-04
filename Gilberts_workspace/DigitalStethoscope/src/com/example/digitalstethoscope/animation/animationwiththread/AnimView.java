@@ -93,6 +93,10 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
         paint.setColor(Color.WHITE);
 
         // y-axis
+        canvas.save();
+        canvas.rotate(270,50,50);
+        canvas.drawText("Frequency, Hz",-270, 70, paint);
+        canvas.restore();
         canvas.drawText("0", 130, 590, paint);
         canvas.drawText("500", 110, 530, paint);
         canvas.drawText("1000", 95, 470, paint);
