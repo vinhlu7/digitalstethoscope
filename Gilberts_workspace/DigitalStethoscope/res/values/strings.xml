@@ -10,7 +10,7 @@
     <string name="RealtimeStreaming">Realtime Streaming</string>
     <string name="TestRealTime">Test RealTime</string>
     <string name="TestPlotting">Test Plotting</string>
-    <string name="TestCanvas">Test Canvas</string>
+    <string name="TestCanvas">Wav Spectrogram</string>
     <string name="CalcFFT">Calculate FFT</string>
     <string name="OpenWavFile">Open Wav File</string>
     <string name="PlotWav">Plot Wav</string>

@@ -1,13 +1,8 @@
 package com.example.digitalstethoscope.activities;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import wav.WavFile.WavFile;
-import wav.WavFile.WavFileException;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
@@ -26,7 +21,6 @@ import android.widget.Toast;
 
 import com.example.digitalstethoscope.R;
 import com.example.digitalstethoscope.animation.animationwiththread.AnimationActivity;
-import com.example.digitalstethoscope.util.calculating.CalcFFTTask;
 import com.example.digitalstethoscope.util.fileexplorer.FileChooser;
 
 public class TestCanvasActivity extends Activity implements OnClickListener {
@@ -41,12 +35,12 @@ public class TestCanvasActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_canvas);
-        start = (Button) findViewById(R.id.CalcFFTButton);
+        // start = (Button) findViewById(R.id.CalcFFTButton);
         testCanvasView = (TextView) findViewById(R.id.TestCanvasView);
         testCanvasView.setText("Start");
         // testCanvasView = (TestCanvasView)
         // findViewById(R.id.TestCanvasViewClass);
-        start.setOnClickListener(this);
+        // start.setOnClickListener(this);
         // new PrepareViewTask().execute();
 
     }
@@ -66,60 +60,60 @@ public class TestCanvasActivity extends Activity implements OnClickListener {
 
     public void onClick(View view) {
         switch (view.getId()) {
-        
-        case R.id.CalcFFTButton:
-            if (this.wav != null) {
-                testCanvasView.setText("After button click wav open");
-                Log.d("TestCanvasActivity", "After button click wav open");
-                int framesRead = 0;
-                double[] buffer = new double[CalcFFTTask.FFT_SIZE
-                        * this.wav.getNumChannels()];
-                try {
-                    framesRead = this.wav.readFrames(buffer,
-                            CalcFFTTask.FFT_SIZE);
-                } catch (IOException e) {
-                } catch (WavFileException wfe) {
-                }
-                CalcFFTTask calcffttask = new CalcFFTTask();
-                calcffttask.execute(buffer);
 
-                try {
-                    int lines = 20;
-                    double[] results = calcffttask.get(5, TimeUnit.SECONDS);
-                    testCanvasView.setText("First " + lines
-                            + " FFT calculations.\n"
-                            + formatDouble(lines, results));
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    // e.printStackTrace();
-                    Toast.makeText(this, "Interrupted Exception",
-                            Toast.LENGTH_SHORT).show();
-                } catch (ExecutionException e) {
-                    // TODO Auto-generated catch block
-                    // e.printStackTrace();
-                    Toast.makeText(this, "Execution Exception",
-                            Toast.LENGTH_SHORT).show();
-                } catch (TimeoutException e) {
-                    // TODO Auto-generated catch block
-                    // e.printStackTrace();
-                    Toast.makeText(this, "Timeout Exception",
-                            Toast.LENGTH_SHORT).show();
-                }
+        // case R.id.CalcFFTButton:
+        // if (this.wav != null) {
+        // testCanvasView.setText("After button click wav open");
+        // Log.d("TestCanvasActivity", "After button click wav open");
+        // int framesRead = 0;
+        // double[] buffer = new double[CalcFFTTask.FFT_SIZE
+        // * this.wav.getNumChannels()];
+        // try {
+        // framesRead = this.wav.readFrames(buffer,
+        // CalcFFTTask.FFT_SIZE);
+        // } catch (IOException e) {
+        // } catch (WavFileException wfe) {
+        // }
+        // CalcFFTTask calcffttask = new CalcFFTTask();
+        // calcffttask.execute(buffer);
+        //
+        // try {
+        // int lines = 20;
+        // double[] results = calcffttask.get(5, TimeUnit.SECONDS);
+        // testCanvasView.setText("First " + lines
+        // + " FFT calculations.\n"
+        // + formatDouble(lines, results));
+        // } catch (InterruptedException e) {
+        // // TODO Auto-generated catch block
+        // // e.printStackTrace();
+        // Toast.makeText(this, "Interrupted Exception",
+        // Toast.LENGTH_SHORT).show();
+        // } catch (ExecutionException e) {
+        // // TODO Auto-generated catch block
+        // // e.printStackTrace();
+        // Toast.makeText(this, "Execution Exception",
+        // Toast.LENGTH_SHORT).show();
+        // } catch (TimeoutException e) {
+        // // TODO Auto-generated catch block
+        // // e.printStackTrace();
+        // Toast.makeText(this, "Timeout Exception",
+        // Toast.LENGTH_SHORT).show();
+        // }
+        //
+        // } else {
+        // Toast.makeText(this, "Please select a .WAV file first.",
+        // Toast.LENGTH_SHORT).show();
+        // /*
+        // * testCanvasView.setText("After button click random");
+        // * Log.d("debugthisshit", "After button click random"); //new
+        // * PrepareViewTask().execute(); double[] testinput = new
+        // * double[CalcFFTTask.FFT_SIZE];
+        // *
+        // * for (int i= 0; i < CalcFFTTask.FFT_SIZE; i++) { testinput[i]
+        // * = Math.random(); } new CalcFFTTask().execute(testinput);
+        // */
+        // }
 
-            } else {
-                Toast.makeText(this, "Please select a .WAV file first.",
-                        Toast.LENGTH_SHORT).show();
-                /*
-                 * testCanvasView.setText("After button click random");
-                 * Log.d("debugthisshit", "After button click random"); //new
-                 * PrepareViewTask().execute(); double[] testinput = new
-                 * double[CalcFFTTask.FFT_SIZE];
-                 * 
-                 * for (int i= 0; i < CalcFFTTask.FFT_SIZE; i++) { testinput[i]
-                 * = Math.random(); } new CalcFFTTask().execute(testinput);
-                 */
-            }
-        
         case R.id.PlotWavButton:
             if (this.wav != null) {
                 // testCanvasView.setText("After button click wav open");

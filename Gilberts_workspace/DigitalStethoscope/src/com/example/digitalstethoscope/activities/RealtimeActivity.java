@@ -42,7 +42,7 @@ public class RealtimeActivity extends Activity {
         setContentView(R.layout.activity_realtime);
 
         testTextView = (TextView) findViewById(R.id.TestTextView);
-        testTextView.setText("abcd");
+        testTextView.setText("");
 
         // bluetooth con
 
@@ -85,10 +85,8 @@ public class RealtimeActivity extends Activity {
             try {
                 isConnected = contask.get();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 Log.d(TAG, e.toString());
             } catch (ExecutionException e) {
-                // TODO Auto-generated catch block
                 Log.d(TAG, e.toString());
             }
         } else {
