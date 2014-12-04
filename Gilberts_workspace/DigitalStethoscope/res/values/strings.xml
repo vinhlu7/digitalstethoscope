@@ -14,10 +14,10 @@
     <string name="CalcFFT">Calculate FFT</string>
     <string name="OpenWavFile">Open Wav File</string>
     <string name="PlotWav">Plot Wav</string>
-    <string name="title_activity_realtime">RealtimeActivity</string>
-    <string name="title_activity_test_canvas">TestCanvasActivity</string>
+    <string name="title_activity_realtime">Realtime Streaming</string>
+    <string name="title_activity_test_canvas">Wav Spectrogram</string>
     <string name="title_activity_test_plotting">TestPlottingActivity</string>
-    <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_about">About</string>
     
     <string name="SchoolName"><b>San Francisco State University</b></string>
     <string name="CourseName"><b>Engineering Senior Project</b></string>

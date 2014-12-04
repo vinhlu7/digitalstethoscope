@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.digitalstethoscope.R;
-import com.example.digitalstethoscope.animation.animationwiththread.AnimationActivity;
 import com.example.digitalstethoscope.util.bluetooth.BluetoothConnectTask;
 import com.example.digitalstethoscope.util.fileexplorer.FileChooser;
 
@@ -51,8 +50,8 @@ public class LandingActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            //return true;
-        	Intent i = new Intent(this, AboutActivity.class);
+            // return true;
+            Intent i = new Intent(this, AboutActivity.class);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);
@@ -139,12 +138,11 @@ public class LandingActivity extends Activity {
     }
 
     public void onClickTestPlotting(View v) {
-    	/*
-        // new DelayTask().execute(5);
-        // Intent intent = new Intent(this, SpectrogramActivity.class);
-        Intent intent = new Intent(this, AnimationActivity.class);
-        startActivity(intent);
-        */
+        /*
+         * // new DelayTask().execute(5); // Intent intent = new Intent(this,
+         * SpectrogramActivity.class); Intent intent = new Intent(this,
+         * AnimationActivity.class); startActivity(intent);
+         */
     }
 
     public void onClickTestCanvas(View v) {
