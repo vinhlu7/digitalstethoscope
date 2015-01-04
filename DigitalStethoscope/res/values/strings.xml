@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DigitalStethoscope</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">About</string>
+    <string name="EnableBluetooth">Enable Bluetooth</string>
+    <string name="ConnectDevice">Connect Device</string>
+    <string name="OpenWaveFile">Open Wave File</string>
+    <string name="RealtimeStreaming">Realtime Streaming</string>
+    <string name="TestRealTime">Test RealTime</string>
+    <string name="TestPlotting">Test Plotting</string>
+    <string name="TestCanvas">Wav Spectrogram</string>
+    <string name="CalcFFT">Calculate FFT</string>
+    <string name="OpenWavFile">Open Wav File</string>
+    <string name="PlotWav">Plot Wav</string>
+    <string name="title_activity_realtime">Realtime Streaming</string>
+    <string name="title_activity_test_canvas">Wav Spectrogram</string>
+    <string name="title_activity_test_plotting">TestPlottingActivity</string>
+    <string name="title_activity_about">About</string>
+    
+    <string name="SchoolName"><b>San Francisco State University</b></string>
+    <string name="CourseName"><b>Engineering Senior Project</b></string>
+    <string name="GroupMembers"><b>Team Members: </b>Khim C., Juan L., Lok kee L., Vinh L., Gilbert S.</string>
+    <string name="Programmers"><b>Programmed By: </b>Vinh L. &amp; Gilbert S.</string>
+    
+    <string name="ProjectName"><b>Digital Stethoscope With \n Wireless Data Transmission and Smartphone UI</b></string>
+    <string name="lol">&#169; 2014 </string>
+    <string name="desc"></string>
+    
+    <string name="TextView01"></string>
+    <string name="TextView02"></string>
+
+</resources>
