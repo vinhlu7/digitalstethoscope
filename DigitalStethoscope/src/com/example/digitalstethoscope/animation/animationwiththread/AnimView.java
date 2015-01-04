@@ -94,8 +94,8 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
 
         // y-axis
         canvas.save();
-        canvas.rotate(270,50,50);
-        canvas.drawText("Frequency, Hz",-270, 70, paint);
+        canvas.rotate(270, 50, 50);
+        canvas.drawText("Frequency, Hz", -270, 70, paint);
         canvas.restore();
         canvas.drawText("0", 130, 590, paint);
         canvas.drawText("500", 110, 530, paint);
@@ -129,42 +129,16 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback,
             calcffttask.execute((double[]) data);
             double[] fftResults = null;
             try {
-                // get the formatted results, not the raw
                 fftResults = calcffttask.get();
             } catch (InterruptedException e) {
                 Log.d(TAG, "Interrupted fft task");
             } catch (ExecutionException e) {
                 Log.d(TAG, "Execution fft task");
             }
-            // StringBuilder debugresults = new StringBuilder();
-            // debugresults.append("Debug results: ");
-            // for (int i = 0; i < 10; i++) {
-            // debugresults.append(String.format("%.4f, ", fftResults[i]));
-            // }
-            // Log.d(TAG, debugresults.toString());
-            //
-            // StringBuilder debugscaled = new StringBuilder();
-            // debugscaled.append("Debug scaled: ");
-            // for (int i = 0; i < 10; i++) {
-            // debugscaled.append(String.format("%d, ", scaled[i]));
-            // }
-            // Log.d(TAG, debugscaled.toString());
-
-            // run method
             try {
                 canvas = holder.lockCanvas();
                 synchronized (holder) {
-                    // draw static elements to screen
                     this.drawStatic(canvas);
-
-                    // Log.d(TAG,
-                    // "Screen has been refreshed in postInvalidate");
-
-                    // this needs to be in CalcFFTTask; format there
-                    // format fft results before insert
-
-                    // end
-
                     colorArray.insert(fftResults);
                     bitmap = Bitmap.createBitmap(colorArray.castInt(), WIDTH,
                             HEIGHT, Bitmap.Config.RGB_565);

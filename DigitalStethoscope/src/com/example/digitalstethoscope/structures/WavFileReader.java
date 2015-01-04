@@ -11,9 +11,6 @@ import android.util.Log;
 
 import com.example.digitalstethoscope.util.calculating.CalcFFTTask;
 
-//This reads samples from the wav file and
-// places them into its internal DoubleBuffer
-//
 public class WavFileReader extends Observable implements Runnable {
     private WavFile wav;
     private DoubleBuffer fileSamples;
@@ -35,12 +32,10 @@ public class WavFileReader extends Observable implements Runnable {
 
     @Override
     public void run() {
-        // read frames from the wav file
         Log.d(TAG, "Running");
         int framesRead = 1;
         double[] buffer = new double[CalcFFTTask.FFT_SIZE
                 * this.wav.getNumChannels()];
-        // while (isRunning) {
         do {
             if (framesRead != 0) {
                 try {
@@ -57,16 +52,9 @@ public class WavFileReader extends Observable implements Runnable {
             transferSamples(FRAME_SIZE);
             setChanged();
             notifyObservers(this.frame);
-            // try {
-            // Thread.sleep(1000);
-            // } catch (InterruptedException e) {
-            // // TODO Auto-generated catch block
-            // e.printStackTrace();
-            // }
             incrementBufferPosition(HOP_SIZE);
         } while (isRunning && indx + FRAME_SIZE < BUF_SIZE
                 && indx + FRAME_SIZE <= fileSamples.position() + HOP_SIZE);
-        // }
         Log.d(TAG, "Stop running.");
     }
 
@@ -79,7 +67,6 @@ public class WavFileReader extends Observable implements Runnable {
     }
 
     // get the doubles from the DoubleBuffer
-    //
     private void transferSamples(int numSamples) {
         for (int i = 0; i < numSamples; i++) {
             try {

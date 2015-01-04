@@ -15,27 +15,27 @@ import android.view.SurfaceHolder;
 
 public class AnimThread extends Thread implements Observer {
 
-    private SurfaceHolder holder;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
+    private static final String TAG = "AnimThread";
+
+    private SurfaceHolder holder = null;
     private boolean running = true;
     private int x_position = 150;
     private int rowToPaint = 0;
-    private final int WIDTH = 800;
-    private final int HEIGHT = 600;
-    private static final String TAG = "AnimThread";
     private ColorArray colorArray = new ColorArray(WIDTH, HEIGHT);
     private float[][] sampleStft = new float[HEIGHT][WIDTH];
-    Paint paint = new Paint();
-    Paint paintBar = new Paint();
-    Canvas canvas = null;
-    Color color = null;
-    // float [] test = new float[3];
-    float[] test = { 174f, 1f, 1f };
-    Random random = new Random();
-    Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.RGB_565);
-    int[] colors = { Color.rgb(179, 5, 5), Color.RED, Color.rgb(255, 154, 1),
-            Color.YELLOW, Color.rgb(102, 255, 102), Color.CYAN,
-            Color.rgb(0, 128, 255), Color.rgb(13, 5, 232) };
-
+    private Paint paint = new Paint();
+    private Paint paintBar = new Paint();
+    private Canvas canvas = null;
+    private Color color = null;
+    private float[] test = { 174f, 1f, 1f };
+    private Random random = new Random();
+    private Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT,
+            Bitmap.Config.RGB_565);
+    private int[] colors = { Color.rgb(179, 5, 5), Color.RED,
+            Color.rgb(255, 154, 1), Color.YELLOW, Color.rgb(102, 255, 102),
+            Color.CYAN, Color.rgb(0, 128, 255), Color.rgb(13, 5, 232) };
     private boolean refresh = true;
 
     public AnimThread(SurfaceHolder holder) {
@@ -46,11 +46,6 @@ public class AnimThread extends Thread implements Observer {
     public void run() {
         Log.d(TAG, "Running");
         paint.setTextSize(paint.getTextSize() * 2);
-        /*
-         * for (int row = 0; row < HEIGHT; row++) { for (int column = 0; column
-         * < WIDTH; column++) { sampleStft[row][column] = -100 + (int)
-         * (Math.random() * (121)); } }
-         */
         while (running) {
             try {
                 canvas = holder.lockCanvas();
@@ -80,13 +75,6 @@ public class AnimThread extends Thread implements Observer {
                     canvas.drawText("-100", 1130, 540, paint);
                     canvas.drawText("-120", 1130, 600, paint);
 
-                    // Color.RGBToHSV(0,0,255,test);
-                    // System.out.println("color is: " +
-                    // Color.HSVToColor(1,test));
-                    // Color.colorToHSV(Color.RED,test);
-                    // System.out.println("Test1: "+ test[0]);
-                    // System.out.println("Test2: "+ test[1]);
-                    // System.out.println("Test3: "+ test[2]);
                     postInvalidate();
                 }
                 this.refresh = false;
@@ -104,14 +92,12 @@ public class AnimThread extends Thread implements Observer {
 
     private void postInvalidate() {
         Log.d(TAG, "Screen has been refreshed in postInvalidate");
-        double [] columnArray = new double[HEIGHT];
+        double[] columnArray = new double[HEIGHT];
 
         for (int i = 0; i < HEIGHT; i++) {
-            // columnArray[i] = Color.RED;
             columnArray[i] = -120 + (int) (Math.random() * (121));
         }
 
-        // colorArray.insert(columnArray);
         bitmap = Bitmap.createBitmap(colorArray.castInt(), WIDTH, HEIGHT,
                 Bitmap.Config.RGB_565);
         canvas.drawBitmap(bitmap, x_position, 0, null);
@@ -125,10 +111,8 @@ public class AnimThread extends Thread implements Observer {
     @Override
     // this method gets called when a new frame is made available
     public void update(Observable observable, Object data) {
-
         if (data instanceof double[]) {
             Log.d(TAG, "In update callback. Screen should refresh.");
-            // postInvalidate();
             this.refresh = true;
         }
 
