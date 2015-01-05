@@ -1,9 +1,0 @@
-.settings
-bin
-gen
-.classpath
-.gitignore
-.project
-AndroidManifest.xml
-proguard-project.txt
-project.properties
