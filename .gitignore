@@ -1,9 +1,26 @@
-#Ignore everything
 *
 
-#But not these files...
-!.gitignore
-!DigitalStethoscope/libs/*
-!DigitalStethoscope/src/*
-!DigitalStethoscope/bin/*
+# built application files
+#*.apk
+#*.ap_
 
+# files for the dex VM
+#*.dex
+
+# Java class files
+#*.class
+
+# generated files
+#bin/
+#gen/
+
+# Local configuration file (sdk path, etc)
+#local.properties
+
+!libs/
+!src/
+!bin/
+
+!libs/*
+!src/*
+!bin/*
