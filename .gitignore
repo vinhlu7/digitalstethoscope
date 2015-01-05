@@ -1,26 +1,9 @@
-*
-
-# built application files
-#*.apk
-#*.ap_
-
-# files for the dex VM
-#*.dex
-
-# Java class files
-#*.class
-
-# generated files
-#bin/
-#gen/
-
-# Local configuration file (sdk path, etc)
-#local.properties
-
-!libs/
-!src/
-!bin/
-
-!libs/*
-!src/*
-!bin/*
+.settings
+bin
+gen
+.classpath
+.gitignore
+.project
+AndroidManifest.xml
+proguard-project.txt
+project.properties
