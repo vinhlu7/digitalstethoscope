@@ -3,7 +3,6 @@
 
 #But not these files...
 !.gitignore
-DigitalStethoscope/*
 !DigitalStethoscope/libs/*
 !DigitalStethoscope/src/*
 !DigitalStethoscope/bin/*
